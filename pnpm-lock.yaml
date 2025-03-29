@@ -23,6 +23,9 @@ importers:
       postgres:
         specifier: ^3.4.5
         version: 3.4.5
+      primevue:
+        specifier: ^4.3.3
+        version: 4.3.3(vue@3.5.13)
     devDependencies:
       '@nuxt/devtools':
         specifier: ^1.0.3
