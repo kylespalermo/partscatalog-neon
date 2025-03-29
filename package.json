@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4",
+    "@primevue/nuxt-module": "^4.3.3",
     "pg": "^8.13.1",
     "postgres": "^3.4.5"
   }
