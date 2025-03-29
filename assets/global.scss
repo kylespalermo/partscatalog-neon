@@ -1,0 +1,67 @@
+body {
+    margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 { margin: 0 }
+
+@font-face {
+    font-family: Inter;
+    src: url(Inter-VariableFont_opsz,wght.ttf);
+}
+
+$sans-serif: "Inter", sans-serif;
+
+* {
+    font-family: sans-serif;
+    letter-spacing: -.02em
+}
+
+@function calculateRem($size) {
+    $remSize: calc($size / 16px);
+    @return #{$remSize}rem;
+}
+  
+@mixin fontSize($size) {
+    font-size: $size; //Fallback in px
+    font-size: calculateRem($size);
+}
+
+@mixin lineHeight($size) {
+    font-size: $size; //Fallback in px
+    font-size: calculateRem($size);
+}
+
+ 
+h1 {
+    letter-spacing: -.06em;
+    @include fontSize(48px);
+    @include lineHeight(54px);
+    &.large {
+        @include fontSize(72px);
+        @include lineHeight(80px);
+    }
+
+}
+
+#__nuxt {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.base-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-flow: column;
+    gap: 24px;
+    width: 100vw;
+    max-width: 1200px;
+}
+
+// primeVue
+
+.p-card-title {
+    font-weight: 600 !important;
+}

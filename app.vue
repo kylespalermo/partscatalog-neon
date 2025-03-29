@@ -1,5 +1,6 @@
 <template>
   <div>
-    <DatabaseTest />
+    <NuxtPage/>
   </div>
 </template>
+

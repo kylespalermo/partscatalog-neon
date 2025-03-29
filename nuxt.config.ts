@@ -1,7 +1,9 @@
+import Aura from '@primevue/themes/aura';
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-
+  css: ['~/assets/global.scss'],
   routeRules: {
     // prerender index route by default
     '/': { prerender: true },
@@ -11,5 +13,12 @@ export default defineNuxtConfig({
     databaseUrl: '',
   },
 
+  modules: [
+    '@primevue/nuxt-module'
+  ],
+  primevue: {
+    importTheme: { from: '@/themes/theme.js' },
+  },
   compatibilityDate: '2025-01-18',
 });
+
