@@ -2,9 +2,9 @@
 const { products, error } = useProducts();
 
 const productTypes = useProductTypes(products);
-const productApplications = useProductApplications(products);
+// const productApplications = useProductApplications(products);
 
-const productCategories = productTypes.value.concat(productApplications.value)
+// const productCategories = productTypes.value.concat(productApplications.value)
 
 
 </script>
@@ -22,8 +22,8 @@ const productCategories = productTypes.value.concat(productApplications.value)
     <div class="heading-content">
         <h2 class="text-center">Or browse by category</h2>
         <div class="wrap">
-            <Button asChild v-for="productCategory in productCategories" v-slot="slotProps">
-                <NuxtLink :class="slotProps.class" :to="{path: '/products', query: { category: productCategory }}">{{ productCategory }}</NuxtLink>
+            <Button asChild v-for="productType in productTypes" v-slot="slotProps">
+                <NuxtLink :class="slotProps.class" :to="{path: '/products', query: { type: productType }}">{{ productType }}</NuxtLink>
             </Button>
         </div>
     </div>
