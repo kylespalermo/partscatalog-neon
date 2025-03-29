@@ -16,9 +16,6 @@ export default defineNuxtConfig({
   modules: [
     '@primevue/nuxt-module'
   ],
-  primevue: {
-    importTheme: { from: '@/themes/theme.js' },
-  },
   compatibilityDate: '2025-01-18',
 });
 
