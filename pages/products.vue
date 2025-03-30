@@ -24,6 +24,12 @@
     router.replace({ path: '/products' });
 
 
+    watch(error, (err) => {
+        if (err) {
+            console.error('Error loading products:', err);
+        }
+    });
+
     const filteredProducts = computed(() => {
         if (!products.value || !Array.isArray(products.value)) return []
         return products.value.filter(product => {

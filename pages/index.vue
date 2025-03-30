@@ -6,6 +6,12 @@ const productTypes = useProductTypes(products);
 
 // const productCategories = productTypes.value.concat(productApplications.value)
 
+watch(error, (err) => {
+  if (err) {
+    console.error('Error loading products:', err);
+  }
+});
+
 
 </script>
 
