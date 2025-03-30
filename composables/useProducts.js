@@ -1,16 +1,29 @@
+// composables/useProducts.js
+import { neon } from '@neondatabase/serverless';
+
 export const useProducts = () => {
-  const products = useState("products", () => null);
+  const products = useState('products', () => null);
+  const error = useState('products_error', () => null);
 
-  const { data, error } = useAsyncData("products", () => 
-    $fetch("/api/all_products"),
-    { server: true } // Ensures it only runs on the server during SSR
-  );
+  const { data, pending, error: asyncError } = useAsyncData('products', async () => {
+    const { databaseUrl } = useRuntimeConfig();
+    const db = neon(databaseUrl);
 
-  watchEffect(() => {
-    if (data.value) {
-      products.value = data.value;
-    }
+    return await db`
+      SELECT key, type, model, website, image_url, manufacturer, 
+             country_of_origin, manufacturer_part_number, features, 
+             application, source_table 
+      FROM public.all_products`;
   });
 
-  return { products, error };
+  watchEffect(() => {
+    if (data.value) products.value = data.value;
+    if (asyncError.value) error.value = asyncError.value;
+  });
+
+  return {
+    products,
+    error,
+    pending,
+  };
 };
