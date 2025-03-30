@@ -12,7 +12,10 @@ export default defineEventHandler(async (event) => {
       FROM public.all_products`;
 
     return result;
-  } catch (error) {
-    return { error: error.message };
-  }
+    } catch (error) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: error.message || 'Unknown server error',
+      });
+    }
 });
