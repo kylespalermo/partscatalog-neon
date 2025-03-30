@@ -9,8 +9,7 @@ export default defineNuxtConfig({
   },
   css: ['~/assets/global.scss'],
   routeRules: {
-    // prerender index route by default
-    '/': { prerender: true },
+    '/': { ssr: true, static: false } // this avoids the localhost build-time fetch issue
   },
 
   runtimeConfig: {
