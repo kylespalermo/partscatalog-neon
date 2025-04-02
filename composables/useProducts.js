@@ -17,8 +17,13 @@ export const useProducts = () => {
   });
 
   watchEffect(() => {
-    if (data.value) products.value = data.value;
-    if (asyncError.value) error.value = asyncError.value;
+    if (data.value) {
+      products.value = data.value;
+    }
+    if (asyncError.value) {
+      console.error('Data fetch error:', asyncError.value);
+      error.value = asyncError.value;
+    }
   });
 
   return {
