@@ -1,6 +1,3 @@
-import Aura from '@primevue/themes/aura';
-
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: true,
@@ -15,10 +12,12 @@ export default defineNuxtConfig({
   runtimeConfig: {
     databaseUrl: process.env.DATABASE_URL, // map env var to runtime config key
   },
-
-  modules: [
-    '@primevue/nuxt-module'
-  ],
+  modules: ['@primevue/nuxt-module'],
+  primevue: {
+    options: {
+      unstyled: true
+    }
+  },
   compatibilityDate: '2025-01-18',
 });
 

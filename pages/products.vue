@@ -52,30 +52,35 @@
     <section class="base-grid">
         <h1>Explore products</h1>
         <aside>
-            <fieldset>
-                <legend>Product types</legend>
-                <div v-for="productType in productTypes">
-                    <input type="radio" :id=productType :name=productType :value=productType v-model="selectedType" />
-                    <label :for=productType>{{ productType }}</label>
-                </div>
-                <input type="radio" id="showAllTypes" name="showAllTypes" value="" v-model="selectedType" />
-                <label for="showAllTypes">Show all</label>
-            </fieldset>
-            <fieldset>
-                <legend>Applications</legend>
-                <div v-for="productApplication in productApplications">
-                    <input type="radio" :id=productApplication :name=productApplication :value=productApplication v-model="selectedApplication" />
-                    <label :for=productApplication>{{ productApplication }}</label>
-                </div>
-                <input type="radio" id="showAllApplications" name="showAllApplications" value="" v-model="selectedApplication" />
-                <label for="showAllApplications">Show all</label>
-            </fieldset>
+            <template v-if="products">
+                <fieldset>
+                    <legend>Product types</legend>
+                    <div v-for="productType in productTypes">
+                        <input type="radio" :id=productType :name=productType :value=productType v-model="selectedType" />
+                        <label :for=productType>{{ productType }}</label>
+                    </div>
+                    <input type="radio" id="showAllTypes" name="showAllTypes" value="" v-model="selectedType" />
+                    <label for="showAllTypes">Show all</label>
+                </fieldset>
+                <fieldset>
+                    <legend>Applications</legend>
+                    <div v-for="productApplication in productApplications">
+                        <input type="radio" :id=productApplication :name=productApplication :value=productApplication v-model="selectedApplication" />
+                        <label :for=productApplication>{{ productApplication }}</label>
+                    </div>
+                    <input type="radio" id="showAllApplications" name="showAllApplications" value="" v-model="selectedApplication" />
+                    <label for="showAllApplications">Show all</label>
+                </fieldset>
+            </template>
         </aside>
         <main>
-            <DataView :value="filteredProducts">
+            <DataView
+                v-if="products"
+                :value="filteredProducts"
+            >
                 <template #list="slotProps">
                     <div class="cards-list">
-                        <DataCard v-for="product in slotProps.items"
+                        <DataCard v-for="product in slotProps.items" :key="product.key"
                             :manufacturer="product.manufacturer"
                             :manufacturer_part_number="product.manufacturer_part_number"
                             :model="product.model"
