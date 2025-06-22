@@ -10,7 +10,7 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    databaseUrl: process.env.DATABASE_URL, // map env var to runtime config key
+    databaseUrl: '',
   },
   modules: ['@primevue/nuxt-module'],
   primevue: {
