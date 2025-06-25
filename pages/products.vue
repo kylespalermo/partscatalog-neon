@@ -3,9 +3,13 @@
     import { ref, computed } from 'vue';
     import { useRoute, useRouter } from 'nuxt/app';
 
+    // import 'primevue/datatable/datatable.css';
+    // import 'primevue/paginator/paginator.css';
+
+
     const { products, error } = useProducts();
     const productTypes = useProductTypes(products);
-    const productApplications = useProductApplications(products);
+    // const productApplications = useProductApplications(products);
 
     const route = useRoute();
     const router = useRouter();
@@ -13,13 +17,14 @@
     // Store selected filters in a reactive state
     const selectedType = ref();
     const selectedApplication = ref();
+    const selectedParametricFeatures = ref([]);
 
 
     // When the page loads, set the initial filter from the query
-    if (route.query.type) {
-        console.log(route.query.type)
-        selectedType.value = route.query.type;
-    }
+
+    onMounted(() => {
+        selectedType.value = route.query.type || productTypes.value?.[0];
+    });
 
     router.replace({ path: '/products' });
 
@@ -31,20 +36,49 @@
     });
 
     const filteredProducts = computed(() => {
-        if (!products.value || !Array.isArray(products.value)) return []
-        return products.value.filter(product => {
-            // Filter by type (if selected)
-            const matchesType =
-            !selectedType.value || product.type === selectedType.value
+        if (products.value) {
+            return products.value.filter(product => product.type === selectedType.value)
+        }
+    });
 
-            // Filter by application (if selected)
-            const matchesApplication =
-            !selectedApplication.value ||
-            product.application?.[`app_${selectedApplication.value}`]?.toUpperCase() === "TRUE"
+    function labelFromFeatureKey(key) {
+        return key
+            .replace(/^ft_/, '')       // remove "ft_" prefix
+            .replace(/_/g, ' ')        // replace remaining underscores with spaces
+            .replace(/^\w/, c => c.toUpperCase()); // capitalize first letter
+    }
+    
 
-            return matchesType && matchesApplication
-        })
-    })
+    const { transform } = useTransformProducts();
+    const transformedData = computed(() => {
+        return transform(filteredProducts.value);
+    });
+
+    const parametricFeatures = computed(() => {
+        const first = transformedData.value?.[0];
+        if (!first) return [];
+            return Object.keys(first).filter(key => key.startsWith('ft_'));
+    });
+
+    function selectDefaultParametricFeatures() {
+        selectedParametricFeatures.value = parametricFeatures.value.slice(0, 5);
+    }
+
+    onMounted(() => {
+        selectDefaultParametricFeatures()
+    });
+
+    // watch(
+    //     () => parametricFeatures.value,
+    //     (features) => {
+    //         if (features?.length && selectedParametricFeatures.value.length === 0) {
+    //             selectedParametricFeatures.value = features.slice(0, 5);
+    //         }
+    //     },
+    //     { immediate: true }
+    // );
+
+
 
 </script>
 
@@ -59,10 +93,10 @@
                         <input type="radio" :id=productType :name=productType :value=productType v-model="selectedType" />
                         <label :for=productType>{{ productType }}</label>
                     </div>
-                    <input type="radio" id="showAllTypes" name="showAllTypes" value="" v-model="selectedType" />
-                    <label for="showAllTypes">Show all</label>
+                    <!-- <input type="radio" id="showAllTypes" name="showAllTypes" value="" v-model="selectedType" />
+                    <label for="showAllTypes">Show all</label> -->
                 </fieldset>
-                <fieldset>
+                <!-- <fieldset>
                     <legend>Applications</legend>
                     <div v-for="productApplication in productApplications">
                         <input type="radio" :id=productApplication :name=productApplication :value=productApplication v-model="selectedApplication" />
@@ -70,32 +104,42 @@
                     </div>
                     <input type="radio" id="showAllApplications" name="showAllApplications" value="" v-model="selectedApplication" />
                     <label for="showAllApplications">Show all</label>
+                </fieldset> -->
+                <fieldset>
+                    <legend>Parametric columns</legend>
+                    <div v-for="parametricFeature in parametricFeatures">
+                        <input type="checkbox" :id="parametricFeature" :name="parametricFeature" :value="parametricFeature" v-model="selectedParametricFeatures" />
+                        <label :for="parametricFeature">{{ labelFromFeatureKey(parametricFeature) }}</label>
+                    </div>
                 </fieldset>
             </template>
         </aside>
         <main>
-            <DataView
+            <DataTable
+                class="my-table"
+                columnResizeMode="expand"
                 v-if="products"
-                :value="filteredProducts"
+                :value="transformedData"
             >
-                <template #list="slotProps">
-                    <div class="cards-list">
-                        <DataCard v-for="product in slotProps.items" :key="product.key"
-                            :manufacturer="product.manufacturer"
-                            :manufacturer_part_number="product.manufacturer_part_number"
-                            :model="product.model"
-                            :applications="product.application"
-                            :features="product.features"
-                            :country_of_origin="product.country_of_origin"
-                        />
-                    </div>
+                <Column sortable key="product" field="product" header="Product"/>
+                <Column sortable  key="applications" field="applications" header="Applications">
+                    <template #body="{ data }">
+                        <span v-for="(application, index) in data.applications" :key="index">
+                            {{ application }}
+                        </span>
+                    </template>
+                </Column>
+                <Column sortable key="country_of_origin" field="country_of_origin" header="Country of origin" />
+                <template v-for="selectedParametricFeature in selectedParametricFeatures">
+                    <Column sortable :field="selectedParametricFeature" :header="labelFromFeatureKey(selectedParametricFeature)" />
                 </template>
-            </DataView>
+            </DataTable>
         </main>
     </section>
 </template>
 
 <style scoped>
+
 
 h1 {
     grid-column: 1 / span 12;
@@ -114,6 +158,15 @@ main {
     display: flex;
     flex-direction: column;
     gap: 8px;
+}
+
+.my-table :deep(.p-datatable-table) {
+  table-layout: auto !important;
+  width: auto;
+  white-space: nowrap;
+  td, th {
+    padding: 4px 12px 4px 12px;
+  }
 }
 
 </style>

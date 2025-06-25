@@ -13,11 +13,11 @@ export default defineNuxtConfig({
     databaseUrl: '',
   },
   modules: ['@primevue/nuxt-module'],
-  primevue: {
-    options: {
-      unstyled: true
-    }
-  },
+  // primevue: {
+  //   options: {
+  //     unstyled: true
+  //   }
+  // },
   compatibilityDate: '2025-01-18',
 });
 
