@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "^1.0.3",
+    "@primevue/nuxt-module": "^4.3.5",
     "nuxt": "^3.8.2",
     "sass-embedded": "^1.83.4",
     "vue": "^3.3.8",
@@ -20,7 +21,6 @@
     "@neondatabase/serverless": "^0.10.4",
     "@primeuix/themes": "^1.1.2",
     "@primevue/forms": "^4.3.3",
-    "@primevue/nuxt-module": "^4.3.5",
     "pg": "^8.13.1",
     "postgres": "^3.4.5",
     "primeicons": "^7.0.0",
