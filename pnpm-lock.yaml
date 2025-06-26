@@ -17,9 +17,6 @@ importers:
       '@primevue/forms':
         specifier: ^4.3.3
         version: 4.3.3(vue@3.5.13)
-      '@primevue/nuxt-module':
-        specifier: ^4.3.5
-        version: 4.3.5(@babel/parser@7.27.0)(magicast@0.3.5)(vue@3.5.13)
       pg:
         specifier: ^8.13.1
         version: 8.14.1
@@ -36,6 +33,9 @@ importers:
       '@nuxt/devtools':
         specifier: ^1.0.3
         version: 1.7.0(rollup@4.38.0)(vite@6.2.3(@types/node@22.13.14)(jiti@2.4.2)(sass-embedded@1.86.0)(terser@5.39.0)(yaml@2.7.0))(vue@3.5.13)
+      '@primevue/nuxt-module':
+        specifier: ^4.3.5
+        version: 4.3.5(@babel/parser@7.27.0)(magicast@0.3.5)(vue@3.5.13)
       nuxt:
         specifier: ^3.8.2
         version: 3.16.1(@parcel/watcher@2.5.1)(@types/node@22.13.14)(db0@0.3.1)(ioredis@5.6.0)(magicast@0.3.5)(rollup@4.38.0)(sass-embedded@1.86.0)(terser@5.39.0)(vite@6.2.3(@types/node@22.13.14)(jiti@2.4.2)(sass-embedded@1.86.0)(terser@5.39.0)(yaml@2.7.0))(yaml@2.7.0)
