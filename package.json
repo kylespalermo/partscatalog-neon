@@ -20,6 +20,7 @@
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4",
     "@primeuix/themes": "^1.1.2",
+    "@primevue/core": "^4.3.5",
     "@primevue/forms": "^4.3.3",
     "pg": "^8.13.1",
     "postgres": "^3.4.5",
