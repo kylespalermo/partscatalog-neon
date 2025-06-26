@@ -21,7 +21,7 @@ export default defineNuxtConfig({
     '/': { ssr: true, static: false } // this avoids the localhost build-time fetch issue
   },
   runtimeConfig: {
-    databaseUrl: process.env.DATABASE_URL, // map env var to runtime config key
+    databaseUrl: '', // map env var to runtime config key
   },
   compatibilityDate: '2025-01-18',
 });
