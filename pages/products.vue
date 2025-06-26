@@ -184,11 +184,12 @@
 
 h1 {
     grid-column: 1 / span 12;
+    grid-row: 1;
 }
 
 form {
     grid-column: 1 / span 12;
-    grid-row: 1;
+    grid-row: 2;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -197,7 +198,7 @@ form {
 
 main {
     grid-column: 1 / span 12;
-    grid-row: 2;
+    grid-row: 3;
 }
 
 .cards-list {
