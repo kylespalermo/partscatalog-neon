@@ -134,7 +134,7 @@
                         <label :for="uniqueApplication">{{ uniqueApplication }}</label>
                     </div>
                 </fieldset>
-                <fieldset>
+                <fieldset v-if="uniqueCountries.length > 1">
                     <legend>Filter by countries of origin</legend>
                     <div v-for="uniqueCountry in uniqueCountries">
                         <input type="checkbox" :id="uniqueCountry" :name="uniqueCountry" :value="uniqueCountry" v-model="selectedCountries" />
@@ -160,9 +160,9 @@
                 <Column sortable key="product" field="product" header="Product"/>
                 <Column sortable  key="applications" field="applications" header="Applications">
                     <template #body="{ data }">
-                        <span v-for="(application, index) in data.applications" :key="index">
-                            {{ application }}
-                        </span>
+                        <div class="tags-cell">
+                            <Tag v-for="(application, index) in data.applications" :key="index" :value="application"></Tag>
+                        </div>
                     </template>
                 </Column>
                 <Column sortable key="country_of_origin" field="country_of_origin" header="Country of origin" />
@@ -203,6 +203,11 @@ main {
   td, th {
     padding: 4px 12px 4px 12px;
   }
+}
+
+.tags-cell {
+    display: flex;
+    gap: 2px;
 }
 
 </style>

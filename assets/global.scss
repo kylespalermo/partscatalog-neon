@@ -33,9 +33,10 @@ $sans-serif: "Inter", sans-serif;
 
  
 h1 {
-    letter-spacing: -.06em;
-    @include fontSize(48px);
-    @include lineHeight(54px);
+    letter-spacing: -.03em;
+    font-weight: 600;
+    @include fontSize(32px);
+    @include lineHeight(40px);
     &.large {
         @include fontSize(72px);
         @include lineHeight(80px);
