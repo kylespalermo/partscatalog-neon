@@ -57,7 +57,6 @@
 
 
     const finalFilteredProducts = computed(() => {
-        console.log(transformedData)
         if (!transformedData) return []
             return transformedData.value.filter(product => {
             const matchesApplications =
@@ -113,12 +112,15 @@
 
         return Array.from(countrySet)
     })
+
+    const visible = ref(false);
+
 </script>
 
 <template>
     <section class="base-grid">
         <h1>Explore products</h1>
-        <aside>
+        <form>
             <template v-if="products">
                 <fieldset>
                     <legend>Product types</legend>
@@ -127,29 +129,32 @@
                         <label :for=productType>{{ productType }}</label>
                     </div>
                 </fieldset>
-                <fieldset>
-                    <legend>Filter by applications</legend>
-                    <div v-for="uniqueApplication in uniqueApplications">
-                        <input type="checkbox" :id="uniqueApplication" :name="uniqueApplication" :value="uniqueApplication" v-model="selectedApplications" />
-                        <label :for="uniqueApplication">{{ uniqueApplication }}</label>
-                    </div>
-                </fieldset>
-                <fieldset v-if="uniqueCountries.length > 1">
-                    <legend>Filter by countries of origin</legend>
-                    <div v-for="uniqueCountry in uniqueCountries">
-                        <input type="checkbox" :id="uniqueCountry" :name="uniqueCountry" :value="uniqueCountry" v-model="selectedCountries" />
-                        <label :for="uniqueCountry">{{ uniqueCountry }}</label>
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <legend>Parametric columns</legend>
-                    <div v-for="parametricFeature in parametricFeatures">
-                        <input type="checkbox" :id="parametricFeature" :name="parametricFeature" :value="parametricFeature" v-model="selectedParametricFeatures" />
-                        <label :for="parametricFeature">{{ labelFromFeatureKey(parametricFeature) }}</label>
-                    </div>
-                </fieldset>
+                <Button @click="visible = true" label="Refine results"></Button>
+                <Drawer v-model:visible="visible" header="Refine results">
+                    <fieldset>
+                        <legend>Refine by applications</legend>
+                        <div v-for="uniqueApplication in uniqueApplications">
+                            <input type="checkbox" :id="uniqueApplication" :name="uniqueApplication" :value="uniqueApplication" v-model="selectedApplications" />
+                            <label :for="uniqueApplication">{{ uniqueApplication }}</label>
+                        </div>
+                    </fieldset>
+                    <fieldset v-if="uniqueCountries.length > 1">
+                        <legend>Refine by countries of origin</legend>
+                        <div v-for="uniqueCountry in uniqueCountries">
+                            <input type="checkbox" :id="uniqueCountry" :name="uniqueCountry" :value="uniqueCountry" v-model="selectedCountries" />
+                            <label :for="uniqueCountry">{{ uniqueCountry }}</label>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Show/hide parametric columns</legend>
+                        <div v-for="parametricFeature in parametricFeatures">
+                            <input type="checkbox" :id="parametricFeature" :name="parametricFeature" :value="parametricFeature" v-model="selectedParametricFeatures" />
+                            <label :for="parametricFeature">{{ labelFromFeatureKey(parametricFeature) }}</label>
+                        </div>
+                    </fieldset>
+                </Drawer>
             </template>
-        </aside>
+        </form>
         <main>
             <DataTable
                 class="my-table"
@@ -181,13 +186,18 @@ h1 {
     grid-column: 1 / span 12;
 }
 
-aside {
-    grid-column: 1 / span 3;
-    grid-row: 2;
+form {
+    grid-column: 1 / span 12;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: start;
 }
 
 main {
-    grid-column: 4 / span 9;
+    grid-column: 1 / span 12;
+    grid-row: 2;
 }
 
 .cards-list {
