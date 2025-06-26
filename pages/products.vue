@@ -65,20 +65,12 @@
     }
 
     onMounted(() => {
-        selectDefaultParametricFeatures()
+        selectDefaultParametricFeatures();
     });
 
-    // watch(
-    //     () => parametricFeatures.value,
-    //     (features) => {
-    //         if (features?.length && selectedParametricFeatures.value.length === 0) {
-    //             selectedParametricFeatures.value = features.slice(0, 5);
-    //         }
-    //     },
-    //     { immediate: true }
-    // );
-
-
+    watch(selectedType, () => {
+        selectDefaultParametricFeatures();
+    })
 
 </script>
 
@@ -93,18 +85,7 @@
                         <input type="radio" :id=productType :name=productType :value=productType v-model="selectedType" />
                         <label :for=productType>{{ productType }}</label>
                     </div>
-                    <!-- <input type="radio" id="showAllTypes" name="showAllTypes" value="" v-model="selectedType" />
-                    <label for="showAllTypes">Show all</label> -->
                 </fieldset>
-                <!-- <fieldset>
-                    <legend>Applications</legend>
-                    <div v-for="productApplication in productApplications">
-                        <input type="radio" :id=productApplication :name=productApplication :value=productApplication v-model="selectedApplication" />
-                        <label :for=productApplication>{{ productApplication }}</label>
-                    </div>
-                    <input type="radio" id="showAllApplications" name="showAllApplications" value="" v-model="selectedApplication" />
-                    <label for="showAllApplications">Show all</label>
-                </fieldset> -->
                 <fieldset>
                     <legend>Parametric columns</legend>
                     <div v-for="parametricFeature in parametricFeatures">
