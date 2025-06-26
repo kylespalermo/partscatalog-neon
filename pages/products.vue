@@ -16,8 +16,9 @@
 
     // Store selected filters in a reactive state
     const selectedType = ref();
-    const selectedApplication = ref();
     const selectedParametricFeatures = ref([]);
+    const selectedApplications = ref([]);
+    const selectedCountries = ref([])
 
 
     // When the page loads, set the initial filter from the query
@@ -35,7 +36,7 @@
         }
     });
 
-    const filteredProducts = computed(() => {
+    const typeFilteredProducts = computed(() => {
         if (products.value) {
             return products.value.filter(product => product.type === selectedType.value)
         }
@@ -51,8 +52,27 @@
 
     const { transform } = useTransformProducts();
     const transformedData = computed(() => {
-        return transform(filteredProducts.value);
+        return transform(typeFilteredProducts.value);
     });
+
+
+    const finalFilteredProducts = computed(() => {
+        console.log(transformedData)
+        if (!transformedData) return []
+            return transformedData.value.filter(product => {
+            const matchesApplications =
+                selectedApplications.value.length === 0 ||
+                selectedApplications.value.some(app =>
+                product.applications?.includes(app)
+            )
+
+            const matchesCountry =
+            selectedCountries.value.length === 0 ||
+            selectedCountries.value.includes(product.country_of_origin)
+
+            return matchesApplications && matchesCountry
+        })
+    })
 
     const parametricFeatures = computed(() => {
         const first = transformedData.value?.[0];
@@ -72,6 +92,27 @@
         selectDefaultParametricFeatures();
     })
 
+    const uniqueApplications = computed(() => {
+        const appSet = new Set()
+
+        transformedData.value.forEach(product => {
+            product.applications?.forEach(app => appSet.add(app))
+        })
+
+        return Array.from(appSet)
+    })
+
+    const uniqueCountries = computed(() => {
+        const countrySet = new Set()
+
+        transformedData.value.forEach(product => {
+            if (product.country_of_origin) {
+            countrySet.add(product.country_of_origin)
+            }
+        })
+
+        return Array.from(countrySet)
+    })
 </script>
 
 <template>
@@ -84,6 +125,20 @@
                     <div v-for="productType in productTypes">
                         <input type="radio" :id=productType :name=productType :value=productType v-model="selectedType" />
                         <label :for=productType>{{ productType }}</label>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Filter by applications</legend>
+                    <div v-for="uniqueApplication in uniqueApplications">
+                        <input type="checkbox" :id="uniqueApplication" :name="uniqueApplication" :value="uniqueApplication" v-model="selectedApplications" />
+                        <label :for="uniqueApplication">{{ uniqueApplication }}</label>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Filter by countries of origin</legend>
+                    <div v-for="uniqueCountry in uniqueCountries">
+                        <input type="checkbox" :id="uniqueCountry" :name="uniqueCountry" :value="uniqueCountry" v-model="selectedCountries" />
+                        <label :for="uniqueCountry">{{ uniqueCountry }}</label>
                     </div>
                 </fieldset>
                 <fieldset>
@@ -100,7 +155,7 @@
                 class="my-table"
                 columnResizeMode="expand"
                 v-if="products"
-                :value="transformedData"
+                :value="finalFilteredProducts"
             >
                 <Column sortable key="product" field="product" header="Product"/>
                 <Column sortable  key="applications" field="applications" header="Applications">
