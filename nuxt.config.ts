@@ -7,13 +7,18 @@ export default defineNuxtConfig({
     preset: 'vercel',
   },
   modules: ['@primevue/nuxt-module'],
-  primevue: {
-      options: {
-          theme: {
-              preset: Aura
-          }
-      }
-    },
+	primevue: {
+		options: {
+			theme: {
+				preset: Aura,
+				options: {
+					darkModeSelector: ".p-dark",
+				}
+			},
+			ripple: true
+		},
+		autoImport: true
+	},
   css: [
     '~/assets/global.scss'
   ],
