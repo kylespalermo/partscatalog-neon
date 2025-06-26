@@ -21,7 +21,7 @@ export default defineNuxtConfig({
     '/': { ssr: true, static: false } // this avoids the localhost build-time fetch issue
   },
   runtimeConfig: {
-    databaseUrl: process.env.NUXT_DATABASE_URL,
+    databaseUrl: process.env.DATABASE_URL,
   },
   compatibilityDate: '2025-01-18',
 });
