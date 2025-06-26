@@ -1,4 +1,4 @@
-import Aura from '@primeuix/themes/aura'
+import Aura from '@primeuix/themes/aura';
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -8,13 +8,13 @@ export default defineNuxtConfig({
   },
   modules: ['@primevue/nuxt-module'],
   primevue: {
-    options: {
-      theme: { preset: Aura },       // use a styled mode preset
-      ripple: true,                  // optional UI effect
-    }
-  },
+      options: {
+          theme: {
+              preset: Aura
+          }
+      }
+    },
   css: [
-    'primeicons/primeicons.css',
     '~/assets/global.scss'
   ],
   routeRules: {
