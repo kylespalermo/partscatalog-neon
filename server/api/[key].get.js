@@ -16,6 +16,7 @@ export default defineEventHandler(async (event) => {
     user: dbUser,
     password: dbPassword,
   })
+const productkey = getRouterParam(event, 'key')
 
   try {
     const result = await pool.query(`
@@ -31,12 +32,13 @@ export default defineEventHandler(async (event) => {
         data ->> 'features' AS features,
         data ->> 'application' AS application,
         data ->> 'source_table' AS source_table
-      FROM products 
-    `)
-  return { products: result.rows }
+      FROM products where data->>'key' = $1
+    `,[productkey])
+
+  return { products: result.rows[0]  }
 	
   } catch (error) {
-   console.error(' DB Error:', error)
+  
     return { error: true, message: error.message }
   }
-});
+}); 
