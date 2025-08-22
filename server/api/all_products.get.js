@@ -1,10 +1,10 @@
 import { neon } from "@neondatabase/serverless";
 import { Client } from 'pg';
-import pool from '../utils/db' // keep your db.js inside /server/utils
+//import pool from '../utils/db' // keep your db.js inside /server/utils
 export default defineEventHandler(async (event) => {
   //const { databaseUrl } = useRuntimeConfig();
  // const db = neon(databaseUrl);
-   const { dbHost } = useRuntimeConfig();
+   /*const { dbHost } = useRuntimeConfig();
    const { dbPort } = useRuntimeConfig();
    const { dbName } = useRuntimeConfig();
    const { dbUser } = useRuntimeConfig();
@@ -15,10 +15,10 @@ export default defineEventHandler(async (event) => {
     database: dbName,
     user: dbUser,
     password: dbPassword,
-  })
+  })*/
 
   try {
-    const result = await pool.query(`
+    const result = await globalThis.pg.query(`
       SELECT 
         data ->> 'key' AS key,
         data ->> 'type' AS type,
