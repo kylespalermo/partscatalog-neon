@@ -39,6 +39,7 @@ export default defineNuxtConfig({
     dbName: 'products_db',
     dbUser: 'zach',
     dbPassword: 'admin',
+	databaseUrl:process.env.DEV_NUXT_DATABASE_URL
   },
   compatibilityDate: '2025-01-18',
 });
