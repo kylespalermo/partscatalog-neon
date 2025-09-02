@@ -9,12 +9,10 @@ body{
     font-family: "Inter", sans-serif;
 }
 .main-background {
-     /* background-color:rgba(255, 68, 0, 0.9)!important;  */
-    /* background-image: url("../images/bg-img.png"); */
+        background-image: url("@/assets/images/bg-img.png");
     background-repeat: no-repeat;
-    background-position: right center;
-    background-size: 50%; 
-    background-size: contain;
+    background-position: right top;
+    background-size: 973px;
     position: relative;
 }
 .main-background::after{
@@ -335,4 +333,11 @@ padding: 3px 7px;
 font-size: 16px;
 line-height: 24px;
 font-weight: 500;
+}
+
+@media(max-width:992px){
+    .main-background {
+        background-position: right center; 
+        background-size: 100%;
+    }  
 }
