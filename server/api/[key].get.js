@@ -1,25 +1,8 @@
-import { neon } from "@neondatabase/serverless";
-import { Client } from 'pg';
-//import pool from '../utils/db' // keep your db.js inside /server/utils
 export default defineEventHandler(async (event) => {
-  //const { databaseUrl } = useRuntimeConfig();
- // const db = neon(databaseUrl);
-  /* const { dbHost } = useRuntimeConfig();
-   const { dbPort } = useRuntimeConfig();
-   const { dbName } = useRuntimeConfig();
-   const { dbUser } = useRuntimeConfig();
-   const { dbPassword } = useRuntimeConfig();
- const client = new Client({
-    host: dbHost,
-    port: Number(dbPort),
-    database: dbName,
-    user: dbUser,
-    password: dbPassword,
-  })*/
-const productkey = getRouterParam(event, 'key')
+  const productkey = getRouterParam(event, 'key')
 
   try {
-    const result = await globalThis.pg.query(`
+    const result = await globalThis.sql`
       SELECT 
         data ->> 'key' AS key,
         data ->> 'type' AS type,
@@ -32,10 +15,10 @@ const productkey = getRouterParam(event, 'key')
         data ->> 'features' AS features,
         data ->> 'application' AS application,
         data ->> 'source_table' AS source_table
-      FROM products where data->>'key' = $1
-    `,[productkey])
+      FROM all_products where data->>'key' = ${productkey}
+    `
 
-  return { products: result.rows[0]  }
+    return { products: result[0] }
 	
   } catch (error) {
   

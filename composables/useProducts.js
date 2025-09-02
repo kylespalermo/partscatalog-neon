@@ -1,6 +1,5 @@
 // composables/useProducts.js
 import { neon } from '@neondatabase/serverless';
-import { Client } from 'pg';
 export const useProducts = () => {
   const products = useState('products', () => null);
   const error = useState('products_error', () => null);

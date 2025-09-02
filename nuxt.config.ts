@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     preset: 'vercel',
   },
   modules: ['@primevue/nuxt-module'],
+  plugins: ['~/plugins/fontawesome.client.ts'],
     primevue: {
         options: {
             theme: {
