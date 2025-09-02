@@ -1,13 +1,18 @@
-import { Pool } from 'pg'
+import { neon } from '@neondatabase/serverless'
 
 export default defineNitroPlugin(() => {
   const config = useRuntimeConfig()
-
-  // Use the DATABASE_URL directly
-  const pool = new Pool({
-    connectionString: config.databaseUrl,
-    
-  })
-
-  globalThis.pg = pool
+  
+  console.log('Database URL:', config.databaseUrl ? 'Present' : 'Missing')
+  
+  if (!config.databaseUrl) {
+    console.error('NUXT_DATABASE_URL is not set!')
+    return
+  }
+  
+  // Create Neon connection
+  const sql = neon(config.databaseUrl)
+  
+  globalThis.sql = sql
+  console.log('Database connection initialized')
 })

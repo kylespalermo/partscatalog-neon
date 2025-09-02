@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     preset: 'vercel',
   },
   modules: ['@primevue/nuxt-module'],
+  plugins: ['~/plugins/fontawesome.client.ts'],
     primevue: {
         options: {
             theme: {
@@ -34,12 +35,16 @@ export default defineNuxtConfig({
     '/': { ssr: true, static: false } // this avoids the localhost build-time fetch issue
   },
   runtimeConfig: {
+<<<<<<< HEAD
     dbHost: 'localhost',
     dbPort: 5432,
     dbName: 'products_db',
     dbUser: 'zach',
     dbPassword: 'admin',
 	databaseUrl: process.env.NUXT_DATABASE_URL
+=======
+    databaseUrl: process.env.NUXT_DATABASE_URL
+>>>>>>> 64e85023c20686fe477351718df548cd12e15020
   },
   compatibilityDate: '2025-01-18',
   app: {

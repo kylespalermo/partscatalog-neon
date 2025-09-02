@@ -1,7 +1,5 @@
-import { neon } from "@neondatabase/serverless";
-import { Client } from 'pg';
-//import pool from '../utils/db' // keep your db.js inside /server/utils
 export default defineEventHandler(async (event) => {
+<<<<<<< HEAD
   const { databaseUrl } = useRuntimeConfig();
   const db = neon(databaseUrl);
    /*const { dbHost } = useRuntimeConfig();
@@ -17,26 +15,28 @@ export default defineEventHandler(async (event) => {
     password: dbPassword,
   })*/
 
+=======
+>>>>>>> 64e85023c20686fe477351718df548cd12e15020
   try {
-    const result = await globalThis.pg.query(`
+    const result = await globalThis.sql`
       SELECT 
-        data ->> 'key' AS key,
-        data ->> 'type' AS type,
-        data ->> 'model' AS model,
-        data ->> 'website' AS website,
-        data ->> 'image_url' AS image_url,
-        data ->> 'manufacturer' AS manufacturer,
-        data ->> 'country_of_origin' AS country_of_origin,
-        data ->> 'manufacturer_part_number' AS manufacturer_part_number,
-        data ->> 'features' AS features,
-        data ->> 'application' AS application,
-        data ->> 'source_table' AS source_table
-      FROM products 
-    `)
-  return { products: result.rows }
+        key,
+        type,
+        model,
+        website,
+        image_url,
+        manufacturer,
+        country_of_origin,
+        manufacturer_part_number,
+        features,
+        application,
+        source_table
+      FROM all_products 
+    `
+    return { products: result }
 	
   } catch (error) {
-   console.error(' DB Error:', error)
+    console.error('DB Error:', error)
     return { error: true, message: error.message }
   }
 });

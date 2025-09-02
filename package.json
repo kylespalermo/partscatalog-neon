@@ -36,10 +36,9 @@
     "pg": "^8.16.3",
     "postgres": "^3.4.5",
     "primeicons": "^7.0.0",
-    "primevue": "^4.3.5",
-    "vite-plugin-vue-inspector": "^5.3.2"
+    "primevue": "^4.3.5"
   },
   "engines": {
-  "node": "18.x"
-	}
+    "node": "22.x"
+  }
 }
