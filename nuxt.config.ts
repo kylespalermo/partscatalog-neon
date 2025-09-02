@@ -34,12 +34,7 @@ export default defineNuxtConfig({
     '/': { ssr: true, static: false } // this avoids the localhost build-time fetch issue
   },
   runtimeConfig: {
-    dbHost: 'localhost',
-    dbPort: 5432,
-    dbName: 'products_db',
-    dbUser: 'zach',
-    dbPassword: 'admin',
-	databaseUrl:process.env.DEV_NUXT_DATABASE_URL
+    databaseUrl: process.env.NUXT_DATABASE_URL
   },
   compatibilityDate: '2025-01-18',
 });
