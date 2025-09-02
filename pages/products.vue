@@ -213,25 +213,62 @@ function goToProduct(event) {
 </script>
 
 <template class="!bg-white">
-    <section class="w-full max-w-7xl">
-		 <hgroup class="w-full p-4 sticky  top-0 left-0 main-background headerpro">
-        	<span  @click="$router.push('/')" class="cursor-pointer large text-white text-[26px] left-[39px] ">exo<span class="exo font-bold text-[30px]">search</span></span>
-		   <!-- <p>The technical search engine for industry.</p>-->
-		   <div class=" mt-4 float-right text-white">
-			<ul class="flex flex-wrap gap-2 ">
-			  <li class="inline-block"><a href="#">All products</a></li>
-			  <li class="inline-block"><a href="#">About</a></li>
-			  <li class="inline-block"><a href="#">Vendor sign-in</a></li>
-			</ul>
-		   </div>
-		</hgroup>
+    <section class="w-full inner-nav">
+		 <nav class="top-nav text-white">
+      <div class="mx-auto">
+        <div class="flex items-center justify-between">
+          <!-- Brand -->
+          <div class="flex-shrink-0">
+            <span 
+              @click="$router.push('/')" 
+              class="cursor-pointer logo"
+            >
+              exo<span class="font-bold">search</span>
+            </span>
+          </div>
+
+          <!-- Desktop Menu -->
+          <div class="hidden md:flex ">
+            <a href="#" class="">All products</a>
+            <a href="#" class="">About</a>
+            <a href="#" class="">Vendor sign-in</a>
+          </div>
+
+          <!-- Mobile Toggle Button -->
+          <div class="md:hidden">
+            <button
+              @click="isOpen = !isOpen"
+              type="button"
+              class="inline-flex items-center justify-center p-2 rounded-md"
+            >
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div v-if="isOpen" class="md:hidden px-4 pb-3 space-y-2">
+        <a href="#" class="block py-2 hover:text-yellow-400">All products</a>
+        <a href="#" class="block py-2 hover:text-yellow-400">About</a>
+        <a href="#" class="block py-2 hover:text-yellow-400">Vendor sign-in</a>
+      </div>
+    </nav>
 		</section>
-		<section class="relative mt-[3rem] left-[39px]">
-        <h3 class="font-bold text-[24px] mb-[1.5rem]">Explore products</h3>
+		<section class="inner-conatiner">
+        <h3 class="in-heading">Explore products</h3>
+		
+
         <form>
             <template v-if="products">
                 <fieldset>
-                    <legend class="font-semibold">Showing components for</legend>
+                    <legend class="font-semibold sh-c">Showing components for</legend>
+					<div class="small-badges">
+						<span v-for="productType in productTypes" :key="productType" class="appname">{{ productType }}</span>
+					</div>
                     <div class="flex flex-wrap gap-3 mt-5">
 					  <div v-for="productType in productTypes" :key="productType">
 						<!-- hidden radio -->
@@ -244,21 +281,11 @@ function goToProduct(event) {
 						  class="hidden peer"
 						/>
 					
-						<!-- custom label -->
-						<label
-						  :for="productType"
-						  class="cursor-pointer text-[#1728e5] bg-[#e2eafa] border-0 no-underline text-[17px]] pr-[11px] pl-[8px] 
-								 flex items-center transition"
-						>
-						  <!-- icon (shows when selected) -->
-						  <i class="fas fa-check text-sm" v-if="selectedType === productType"></i>
-						  {{ productType }}
-						</label>
 					  </div>
 					</div>
 
                 </fieldset>
-				<Button @click="visible = true" label="Refine results" class="bg-[#1728e5]"></Button>
+				<Button @click="visible = true" label="Refine results" class="refine-btn"></Button>
                 <Drawer v-model:visible="visible" header="Refine results">
 				
               <!-- <div class="flex items-center gap-2 mb-4">
@@ -277,10 +304,10 @@ function goToProduct(event) {
 							  :key="country"
 							  @click="toggleCountry(country)"
 							  :class="[
-								'flex items-center gap-2 px-[10px] py-[2px] border-0 text-sm transition',
+								'flex items-center gap-2 blue-btn',
 								selectedCountries.includes(country)
 								  ? 'text-[#1728e5] bg-[#e2eafa]'
-								  : '!bg-[#cfcfcf] text-black-700 border-0'
+								  : '!bg-[#dadada] text-[#222222] border-0'
 							  ]"
 							>
 							  <FontAwesomeIcon v-if="selectedCountries.includes(country)" :icon="['fas', 'check']" class="h-4"/>
@@ -299,10 +326,10 @@ function goToProduct(event) {
 						  :key="app"
 						  @click="toggleApplication(app)"
 						  :class="[
-							'flex items-center gap-2 px-[10px] py-[2px] border-0 text-sm transition',
+							'flex items-center gap-2 blue-btn',
 							selectedApplications.includes(app)
 							  ? 'text-[#1728e5] bg-[#e2eafa]'
-								  : '!bg-[#cfcfcf] text-black-700 border-0'
+								  : '!bg-[#dadada] text-[#222222] border-0'
 						  ]"
 						>
 						<FontAwesomeIcon v-if="selectedApplications.includes(app)" :icon="['fas', 'check']" class="h-4"/>
@@ -314,7 +341,7 @@ function goToProduct(event) {
 					</div>
                     
                     <fieldset class="mt-4">
-                        <p class="font-medium mb-2">Show/hide parametric columns</p>
+                        <p class="font-medium side-sub-t">Show/hide parametric columns</p>
                          <div class="flex flex-wrap gap-2">
 						<button
 						  type="button"
@@ -322,10 +349,10 @@ function goToProduct(event) {
 						  :key="parametricFeature"
 						  @click="toggleParametric(parametricFeature)"
 						  :class="[
-							'flex items-center gap-1 px-[10px] py-[2px] border-0 text-sm transition',
+							'flex items-center gap-1 blue-btn',
 							selectedParametricFeatures.includes(parametricFeature)
 							  ? 'text-[#1728e5] bg-[#e2eafa]'
-								  : '!bg-[#cfcfcf] text-black-700 border-0'
+								  : '!bg-[#dadada] text-[#222222] border-0'
 						  ]"
 						>
 						  <span>{{ labelFromFeatureKey(parametricFeature) }}</span> &nbsp;&nbsp;
@@ -335,12 +362,12 @@ function goToProduct(event) {
 					  </div>
                     </fieldset>
 					
-					<div class="mt-5">
-					<p class="font-medium mb-2">Search within</p>
+					<div class="search-form-sec">
+					<p class="s-t">Search within</p>
 					<input
 					  v-model="search"
 					  placeholder="Enter term"
-					  class="border px-4 py-2 rounded mb-4 w-full"
+					  class="s-inp w-full"
 					/>
 					</div>
                </Drawer>

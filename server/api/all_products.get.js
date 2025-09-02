@@ -2,8 +2,8 @@ import { neon } from "@neondatabase/serverless";
 import { Client } from 'pg';
 //import pool from '../utils/db' // keep your db.js inside /server/utils
 export default defineEventHandler(async (event) => {
-  //const { databaseUrl } = useRuntimeConfig();
- // const db = neon(databaseUrl);
+  const { databaseUrl } = useRuntimeConfig();
+  const db = neon(databaseUrl);
    /*const { dbHost } = useRuntimeConfig();
    const { dbPort } = useRuntimeConfig();
    const { dbName } = useRuntimeConfig();

@@ -81,47 +81,87 @@ const convertCode = (code) => {
 </script>
 
 <template class="!bg-white">
-    <section class="w-full max-w-7xl">
-		 <hgroup class="w-full p-4 sticky  top-0 left-0 main-background headerpro">
-        	<span @click="$router.push('/')" class="cursor-pointer large text-white text-[26px] left-[39px] ">exo<span class="exo font-bold text-[30px]">search</span></span>
-		   <!-- <p>The technical search engine for industry.</p>-->
-		   <div class=" mt-4 float-right text-white">
-			<ul class="flex flex-wrap gap-2 ">
-			  <li class="inline-block"><a href="#">All products</a></li>
-			  <li class="inline-block"><a href="#">About</a></li>
-			  <li class="inline-block"><a href="#">Vendor sign-in</a></li>
-			</ul>
-		   </div>
-		</hgroup>
+    <section class="w-full inner-nav">
+		 <nav class="top-nav text-white">
+      <div class="mx-auto">
+        <div class="flex items-center justify-between">
+          <!-- Brand -->
+          <div class="flex-shrink-0">
+            <span 
+              @click="$router.push('/')" 
+              class="cursor-pointer logo"
+            >
+              exo<span class="font-bold">search</span>
+            </span>
+          </div>
+
+          <!-- Desktop Menu -->
+          <div class="hidden md:flex ">
+            <a href="#" class="">All products</a>
+            <a href="#" class="">About</a>
+            <a href="#" class="">Vendor sign-in</a>
+          </div>
+
+          <!-- Mobile Toggle Button -->
+          <div class="md:hidden">
+            <button
+              @click="isOpen = !isOpen"
+              type="button"
+              class="inline-flex items-center justify-center p-2 rounded-md"
+            >
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div v-if="isOpen" class="md:hidden px-4 pb-3 space-y-2">
+        <a href="#" class="block py-2 hover:text-yellow-400">All products</a>
+        <a href="#" class="block py-2 hover:text-yellow-400">About</a>
+        <a href="#" class="block py-2 hover:text-yellow-400">Vendor sign-in</a>
+      </div>
+    </nav>
 		</section>
-		<section class="relative mt-[3rem] left-[39px]">
+		<section class="inner-conatiner">
 		<div v-if="product" class="">
         <div class="mb-6 flex items-center gap-3 product_name">
-			<h3 class="font-bold text-[24px]">{{ product.manufacturer }} {{product.model}}</h3> 
-			<!-- custom label -->
-			
-			<label class="cursor-pointer text-[#1728e5] bg-[#e2eafa] border-0 no-underline text-[17px]] pr-[11px] pl-[8px]"
+			<h3 class="in-heading">{{ product.manufacturer }} {{product.model}}
+			<span class=""
 			>
 			 {{ product.type }}
-			</label>
+			</span>
+			</h3> 
+		
+			
+			
 			
         </div>
 		<div class="relative -top-[10px]">
-		<span v-for="app in applicationNames" :key="app" class="font-[400] text-[#1728e5] bg-[#e2eafa] border-0 no-underline text-[17px]] pr-[8px] pl-[8px] gap-4 mr-[5px] pb-[3px]">{{ app }}</span> <span>{{product.country_of_origin}} <span
-              v-if="convertCode(product.country_of_origin)"
-              :class="`fi fi-${convertCode(product.country_of_origin).toLowerCase()}`"
-              class="w-5 h-5"
-            ></span>
-</span>
+	
+			<div class="small-badges">
+						<span v-for="app in applicationNames" :key="app" class="appname">{{ app }}</span>
+						 <span class="ml-[8px]">{{product.country_of_origin}} <span
+							  v-if="convertCode(product.country_of_origin)"
+							  :class="`fi fi-${convertCode(product.country_of_origin).toLowerCase()}`"
+							  class="w-5 h-5"
+							></span>
+						</span>
+			</div>
+		
+		
 		</div>
        	</div>
 		<div class="relative top-[40px]">
-		<Button label="Request quote" class="bg-[#3838b4] mt-[10px]"></Button> &nbsp;&nbsp;&nbsp; <span class="inline-flex items-center gap-1 website">{{product.website}}  <NuxtLink class="" :to="`${product.website}`" target="_blank"><FontAwesomeIcon :icon="['fas', 'external-link-alt']" class="h-4 text-black"/></NuxtLink></span>
+		<Button label="Request quote" class="refine-btn"></Button> &nbsp;&nbsp;&nbsp; <span class="inline-flex items-center gap-1 website">{{product.website}}  <NuxtLink class="" :to="`${product.website}`" target="_blank"><FontAwesomeIcon :icon="['fas', 'external-link-alt']" class="h-4 text-black"/></NuxtLink></span>
 	   	</div>
 		<div class="overflow-x-auto mt-[70px]">
-		<p class="font-bold mb-4 fixed">Component specifications</p>
-			<div class="mt-10 overflow-x-auto">
-			<table class="min-w-[700px] border-collapse border border-gray-300 ">
+		<p class="font-bold mb-4">Component specifications</p>
+			<div class="keytable">
+			<table class="key_details">
 				  <thead>
 				   <tr class="bg-gray-100">
 				   <th class="border border-gray-300 px-4 py-3 text-left  left-0 bg-gray-100 z-10">Product</th>

@@ -39,7 +39,17 @@ export default defineNuxtConfig({
     dbName: 'products_db',
     dbUser: 'zach',
     dbPassword: 'admin',
-	databaseUrl:process.env.DEV_NUXT_DATABASE_URL
+	databaseUrl: process.env.NUXT_DATABASE_URL
   },
   compatibilityDate: '2025-01-18',
+  app: {
+    head: {
+      link: [
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap'
+        }
+      ]
+    }
+  }
 });
