@@ -4,18 +4,18 @@ export default defineEventHandler(async (event) => {
   try {
     const result = await globalThis.sql`
       SELECT 
-        data ->> 'key' AS key,
-        data ->> 'type' AS type,
-        data ->> 'model' AS model,
-        data ->> 'website' AS website,
-        data ->> 'image_url' AS image_url,
-        data ->> 'manufacturer' AS manufacturer,
-        data ->> 'country_of_origin' AS country_of_origin,
-        data ->> 'manufacturer_part_number' AS manufacturer_part_number,
-        data ->> 'features' AS features,
-        data ->> 'application' AS application,
-        data ->> 'source_table' AS source_table
-      FROM all_products where data->>'key' = ${productkey}
+        key,
+        type,
+        model,
+        website,
+        image_url,
+        manufacturer,
+        country_of_origin,
+        manufacturer_part_number,
+        features,
+        application,
+        source_table
+      FROM all_products where key = ${productkey}
     `
 
     return { products: result[0] }
