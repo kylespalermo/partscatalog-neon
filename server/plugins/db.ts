@@ -12,7 +12,7 @@ export default defineNitroPlugin(() => {
   
   // Create Neon connection
   const sql = neon(config.databaseUrl)
-  
+  console.log(sql)
   globalThis.sql = sql
   console.log('Database connection initialized')
 })

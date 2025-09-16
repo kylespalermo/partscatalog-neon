@@ -1,9 +1,12 @@
 <script setup>
 
-    import { ref, computed, onMounted } from 'vue';
+    import { ref, computed, onMounted, nextTick } from 'vue';
     import { useRoute, useRouter } from 'nuxt/app';
+	
 	// fuzzy search bar code for filter
 	import Fuse from 'fuse.js'
+  
+  const isOpen = ref(false) // or true, depending on default
   
   const { data, error } = await useFetch('/api/all_products')
   const products = computed(() => data.value?.products || [])
@@ -22,17 +25,16 @@
     const selectedApplications = ref([]);
     const selectedCountries = ref([])
 
-
+	
     // When the page loads, set the initial filter from the query
-
+	const initialType = route.query.type || productTypes.value?.[0]
+ 	selectedType.value = initialType
     onMounted(() => {
-        selectedType.value = route.query.type || productTypes.value?.[0];
+		 nextTick() // let DOM mount first
+		router.replace({ path: '/products' });
     });
-
-    router.replace({ path: '/products' });
-
-
-    watch(error, (err) => {
+	
+	 watch(error, (err) => {
         if (err) {
             console.error('Error loading products:', err);
         }
@@ -131,9 +133,7 @@
 
     const uniqueApplications = computed(() => {
         const appSet = new Set()
-		console.log(transformedData)
-		console.log(transformedData.value)
-        transformedData.value.forEach(product => {
+	        transformedData.value.forEach(product => {
             product.applications?.forEach(app => appSet.add(app))
         })
 
@@ -210,6 +210,12 @@ function goToProduct(event) {
   const productKey = event.data.key   // use product key
   router.push(`/${productKey}`)
 }
+
+// go back function 
+function goBack() {
+  router.back()   // same as window.history.back()
+}
+
 </script>
 
 <template class="!bg-white">
@@ -259,6 +265,13 @@ function goToProduct(event) {
     </nav>
 		</section>
 		<section class="inner-conatiner">
+		<div class="flex mt-[-13px] mb-[10px]">
+		 <a @click.prevent="goBack" class="flex items-center text-blue-600 hover:underline cursor-pointer float-right">
+			<FontAwesomeIcon :icon="['fas', 'chevron-left']" class="h-4"/>
+			<FontAwesomeIcon :icon="['fas', 'chevron-left']" class="h-4 mr-1"/>
+			Back
+		  </a>
+		  </div>
         <h3 class="in-heading">Explore products</h3>
 		
 
@@ -267,7 +280,7 @@ function goToProduct(event) {
                 <fieldset>
                     <legend class="font-semibold sh-c">Showing components for</legend>
 					<div class="small-badges">
-						<span v-for="productType in productTypes" :key="productType" class="appname">{{ productType }}</span>
+						<span class="appname">{{ initialType }}</span>
 					</div>
                     <div class="flex flex-wrap gap-3 mt-5">
 					  <div v-for="productType in productTypes" :key="productType">
