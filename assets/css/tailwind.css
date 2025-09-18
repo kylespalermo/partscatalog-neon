@@ -356,7 +356,7 @@ border-radius: 4px!important;
 font-size: 13px!important;
 font-weight: 500!important;
 }
-<!--component specification for product details page-->
+/* component specification for product details page */
 .componant-grid{
             display: grid!important;
             grid-template-columns: repeat(1,1fr)!important;
