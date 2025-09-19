@@ -153,10 +153,10 @@ position:relative;
 }
 .find_component, .find_component:hover{
 background-color: #1728E5!important;
-border-radius: 4px;
-padding: 4px 8px;
-font-size: 20px;
-font-weight: 500;
+border-radius: 4px!important;
+padding: 4px 8px!important;
+font-size: 20px!important;
+font-weight: 500!important;
 color: #fff!important;
 }
 .p-inputtext {

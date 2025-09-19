@@ -24,7 +24,7 @@ const router = useRouter()
 // search logic
 const handleSearch = () => {
 	if (search.value.trim()) {
-  	  router.push({ path: '/products', query: { search: search.value.trim() } })
+  	  router.push({ path: '/products', query: { type: search.value.trim() } })
  	 }}
    import { ref } from 'vue'
 
