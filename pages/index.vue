@@ -88,8 +88,8 @@ const isOpen = ref(false)
       </div>
 	  
       <div class="card basis-auto form-box flex items-center justify-start">
-       <div class=" card-box-bot">
-					<div class="search_input flex justify-between">
+       <div class="card-box-bot">
+					<div class="search_input flex justify-between flex-wrap">
 					<InputText name="email" class="search_products" type="text" placeholder="Enter keywords"  v-model="search"/>
        
 					<Button @click="handleSearch" class="find_component  text-white" type="submit" severity="secondary" label="Find Components"  /> 

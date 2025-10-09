@@ -403,3 +403,7 @@ font-weight: 500!important;
          .cp-table tr td:first-child{
             background-color: #FAFAFA;
          }
+
+button {
+    text-wrap: nowrap;
+}
