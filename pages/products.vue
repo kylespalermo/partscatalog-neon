@@ -26,13 +26,19 @@
     const selectedCountries = ref([])
 
 	
-    // When the page loads, set the initial filter from the query
-	const initialType = route.query.type || productTypes.value?.[0]
- 	selectedType.value = initialType
-    onMounted(() => {
-		 nextTick() // let DOM mount first
-		router.replace({ path: '/products' });
-    });
+    // Store the initial query parameter but don't reactive track it
+	const initialQueryType = route.query.type;
+
+	// Set initial type when products are loaded
+	watch(productTypes, (types) => {
+		if (types?.length && !selectedType.value) {
+			if (initialQueryType && types.includes(initialQueryType)) {
+				selectedType.value = initialQueryType;
+			} else {
+				selectedType.value = types[0];
+			}
+		}
+	}, { immediate: true });
 	
 	 watch(error, (err) => {
         if (err) {
@@ -211,9 +217,19 @@ function goToProduct(event) {
   router.push(`/${productKey}`)
 }
 
-// go back function 
+// go back function
 function goBack() {
   router.back()   // same as window.history.back()
+}
+
+// category selection function
+function selectCategory(category, event) {
+  // Prevent default and stop propagation
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  selectedType.value = category;
 }
 
 </script>
@@ -280,21 +296,19 @@ function goBack() {
                 <fieldset>
                     <legend class="font-semibold sh-c">Showing components for</legend>
 					<div class="small-badges">
-						<span class="appname">{{ initialType }}</span>
-					</div>
-                    <div class="flex flex-wrap gap-3 mt-5">
-					  <div v-for="productType in productTypes" :key="productType">
-						<!-- hidden radio -->
-						<input
-						  type="radio"
-						  :id="productType"
-						  name="productType"
-						  :value="productType"
-						  v-model="selectedType"
-						  class="hidden peer"
-						/>
-					
-					  </div>
+						<button
+							v-for="productType in productTypes"
+							:key="productType"
+							@click="selectCategory(productType, $event)"
+							:class="[
+								'appname category-btn',
+								selectedType === productType
+									? 'category-active'
+									: 'category-inactive'
+							]"
+						>
+							{{ productType }}
+						</button>
 					</div>
 
                 </fieldset>
@@ -451,6 +465,30 @@ main {
 .tags-cell {
     display: flex;
     gap: 2px;
+}
+
+.category-btn {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-right: 8px;
+    margin-bottom: 4px;
+}
+
+.category-active {
+    background-color: #1728e5;
+    color: white;
+    font-weight: 600;
+}
+
+.category-inactive {
+    background-color: #f3f4f6;
+    color: #374151;
+    border: 1px solid #d1d5db;
+}
+
+.category-inactive:hover {
+    background-color: #e5e7eb;
+    border-color: #9ca3af;
 }
 
 </style>
