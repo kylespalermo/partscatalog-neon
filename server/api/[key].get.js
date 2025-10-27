@@ -1,4 +1,6 @@
 export default defineEventHandler(async (event) => {
+  const productkey = getRouterParam(event, 'key')
+
   try {
     const result = await globalThis.sql`
       SELECT 
@@ -13,12 +15,13 @@ export default defineEventHandler(async (event) => {
         features,
         application,
         source_table
-      FROM all_products 
+      FROM all_products where key = ${productkey}
     `
-    return { products: result }
+
+    return { products: result[0] }
 	
   } catch (error) {
-    console.error('DB Error:', error)
+  
     return { error: true, message: error.message }
   }
-});
+}); 

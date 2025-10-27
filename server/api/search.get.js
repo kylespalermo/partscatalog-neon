@@ -14,11 +14,11 @@ export default defineEventHandler(async (event) => {
         application,
         source_table
       FROM all_products 
-    `
+    `;
     return { products: result }
 	
   } catch (error) {
-    console.error('DB Error:', error)
+   console.error(' DB Error:', error)
     return { error: true, message: error.message }
   }
 });
