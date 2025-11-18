@@ -35,7 +35,7 @@ const isOpen = ref(false);
 
 <template>
   <div class="w-full max-w-9xl main-background min-h-screen">
-    <MainNavbar />
+    <MainNavbar isTransparent="true"/>
     <section class="w-full max-w-7xl main-c">
       
       <div class="grid flex items-center card-box">
