@@ -33,33 +33,7 @@ const applicationNames = computed(() => {
   }
 });
 
-// helper: format feature keys
-function formatLabel(key) {
-  return key
-    .replace(/^ft_/, "") // remove ft_ prefix
-    .replace(/_/g, " ") // underscores ? spaces
-    .replace(/^\w/, (c) => c.toUpperCase()); // capitalize first letter
-}
-const featureList = computed(() => {
-  let features = product.value?.features;
-  if (!features) return [];
 
-  // Parse string if necessary
-  if (typeof features === "string") {
-    try {
-      features = JSON.parse(features);
-    } catch (err) {
-      console.error("Failed to parse features JSON:", err);
-      return [];
-    }
-  }
-
-  return Object.entries(features).map(([key, value]) => ({
-    key,
-    label: formatLabel(key),
-    value,
-  }));
-});
 
 // Map ISO 3166-1 alpha-3 → alpha-2
 const iso3to2 = {
@@ -85,7 +59,7 @@ const convertCode = (code) => {
 
 <template class="!bg-white">
   <MainNavbar />
-  <section class="inner-conatiner">
+  <section class="inner-container">
     <div class="flex mt-[-13px] mb-[10px]">
       <client-only>
         <FontAwesomeIcon
@@ -143,180 +117,7 @@ const convertCode = (code) => {
               class="h-4 text-black" /></client-only></NuxtLink
       ></span>
     </div>
-    <div class="overflow-x-auto mt-[70px]">
-      <p class="font-bold mb-4">Component specifications</p>
-      <div class="keytable">
-        <table class="key_details">
-          <thead>
-            <tr class="bg-gray-100">
-              <th
-                class="border border-gray-300 px-4 py-3 text-left left-0 bg-gray-100 z-10"
-              >
-                Product
-              </th>
-              <th
-                v-for="item in featureList"
-                :key="item.key"
-                class="border border-gray-300 px-4 py-3 text-left whitespace-nowrap"
-              >
-                {{ item.label }}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="border border-gray-300 p-2 text-center">
-                {{ product.manufacturer }} {{ product.model }}
-              </td>
-
-              <td
-                v-for="item in featureList"
-                :key="item.key"
-                class="border border-gray-300 p-2 text-center"
-              >
-                {{ item.value }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="componant-grid">
-      <div class="cp-1 cg-sec">
-        <div>
-          <h6 class="short-heading">Electrical</h6>
-          <table class="cp-table">
-            <tr>
-              <td>Power consumption (watts)</td>
-              <td>0.18</td>
-            </tr>
-            <tr>
-              <td>Supply voltage</td>
-              <td>±9 to ±16</td>
-            </tr>
-            <tr>
-              <td>Voltage range</td>
-              <td>±4VDC differential</td>
-            </tr>
-            <tr>
-              <td>Output signal</td>
-              <td>Analog</td>
-            </tr>
-          </table>
-        </div>
-        <div>
-          <h6 class="short-heading">Bias Characteristics</h6>
-          <table class="cp-table">
-            <tr>
-              <td>Initial bias error</td>
-              <td>12</td>
-            </tr>
-            <tr>
-              <td>Bias stability (1 hour)</td>
-              <td>1</td>
-            </tr>
-            <tr>
-              <td>In-run bias stability</td>
-              <td>50 ppm/°C</td>
-            </tr>
-            <tr>
-              <td>Bias temperature coefficient</td>
-              <td>300</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-      <div class="cp-2 cg-sec">
-        <div>
-          <h6 class="short-heading">Mechanical</h6>
-          <table class="cp-table">
-            <tr>
-              <td>Weight</td>
-              <td>0.18</td>
-            </tr>
-            <tr>
-              <td>Volume</td>
-              <td>5.6</td>
-            </tr>
-            <tr>
-              <td>Shock resistance</td>
-              <td>5000</td>
-            </tr>
-            <tr>
-              <td>Package type</td>
-              <td>PCB with pins</td>
-            </tr>
-          </table>
-        </div>
-        <div>
-          <h6 class="short-heading">Configuration</h6>
-          <table class="cp-table">
-            <tr>
-              <td>Axes</td>
-              <td>1</td>
-            </tr>
-            <tr>
-              <td>Sensor technology</td>
-              <td>MEMS</td>
-            </tr>
-          </table>
-        </div>
-        <div>
-          <h6 class="short-heading">Nose and Drift</h6>
-          <table class="cp-table">
-            <tr>
-              <td>Angle random walk</td>
-              <td>--</td>
-            </tr>
-            <tr>
-              <td>Velocity random walk</td>
-              <td>0.007</td>
-            </tr>
-            <tr>
-              <td>Scale factor instability</td>
-              <td>---</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-      <div class="cp-3 cg-sec">
-        <div>
-          <h6 class="short-heading">Environmental</h6>
-          <table class="cp-table">
-            <tr>
-              <td>Maximum operating temperature</td>
-              <td>85°C</td>
-            </tr>
-            <tr>
-              <td>Minimum operating temperature</td>
-              <td>55°C</td>
-            </tr>
-            <tr>
-              <td>Compliance standards</td>
-              <td>--</td>
-            </tr>
-          </table>
-        </div>
-        <div>
-          <h6 class="short-heading">Dynamic Range and Responsiveness</h6>
-          <table class="cp-table">
-            <tr>
-              <td>Rate range</td>
-              <td>--</td>
-            </tr>
-            <tr>
-              <td>Acceleration range</td>
-              <td>10 g</td>
-            </tr>
-            <tr>
-              <td>Frequency</td>
-              <td>600 Hz</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-    </div>
+    <ProductPageComponentSpecifications :product="product" /> 
   </section>
 </template>
 

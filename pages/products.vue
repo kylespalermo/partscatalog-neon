@@ -236,7 +236,7 @@ function selectCategory(category, event) {
 
 <template class="!bg-white">
     <MainNavbar />
-		<section class="inner-conatiner">
+		<section class="inner-container">
 		<div class="flex mt-[-13px] mb-[10px]">
 		 <a @click.prevent="goBack" class="flex items-center text-blue-600 hover:underline cursor-pointer float-right">
 			<FontAwesomeIcon :icon="['fas', 'chevron-left']" class="h-4"/>
