@@ -4,7 +4,6 @@ import "flag-icons/css/flag-icons.min.css";
 
 const route = useRoute();
 const router = useRouter();
-
 // Fetch product details using key from the URL
 const { data, error } = await useFetch(`/api/${route.params.key}`, {
   lazy: false,
@@ -32,8 +31,6 @@ const applicationNames = computed(() => {
     return [];
   }
 });
-
-
 
 // Map ISO 3166-1 alpha-3 → alpha-2
 const iso3to2 = {
@@ -105,6 +102,7 @@ const convertCode = (code) => {
         </div>
       </div>
     </div>
+    <img :src="product.image_url" alt="" />
     <div class="relative top-[40px]">
       <Button label="Request quote" class="refine-btn"></Button>
       &nbsp;&nbsp;&nbsp;
@@ -117,7 +115,7 @@ const convertCode = (code) => {
               class="h-4 text-black" /></client-only></NuxtLink
       ></span>
     </div>
-    <ProductPageComponentSpecifications :product="product" /> 
+    <ProductPageComponentSpecifications :product="product" />
   </section>
 </template>
 

@@ -33,7 +33,6 @@ const categorizedProductData = Object.values(
     return acc;
   }, {})
 );
-console.log(categorizedProductData);
 
 
 </script>
