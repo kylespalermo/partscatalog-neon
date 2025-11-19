@@ -1,0 +1,77 @@
+[
+  {
+    "column_name": "ft_vdc",
+    "display_name": "Input Voltage",
+    "category_name": "Electrical"
+  },
+  {
+    "column_name": "ft_current",
+    "display_name": "Current Draw",
+    "category_name": "Electrical"
+  },
+  {
+    "column_name": "ft_impedance",
+    "display_name": "Impedance",
+    "category_name": "Electrical"
+  },
+  {
+    "column_name": "ft_Connector",
+    "display_name": "Connector",
+    "category_name": "Electrical"
+  },
+  {
+    "column_name": "ft_Communication",
+    "display_name": "Communications",
+    "category_name": "Communications"
+  },
+  {
+    "column_name": "ft_technology",
+    "display_name": "Technology",
+    "category_name": "Specifications"
+  },
+  {
+    "column_name": "ft_applications",
+    "display_name": "Applications",
+    "category_name": "Specifications"
+  },
+  {
+    "column_name": "ft_features",
+    "display_name": "Features",
+    "category_name": "Specifications"
+  },
+  {
+    "column_name": "ft_standards",
+    "display_name": "Standards",
+    "category_name": "Specifications"
+  },
+  {
+    "column_name": "ft_vibration",
+    "display_name": "Vibration",
+    "category_name": "Environmental"
+  },
+  {
+    "column_name": "ft_shock",
+    "display_name": "Shock",
+    "category_name": "Environmental"
+  },
+  {
+    "column_name": "ft_humidity",
+    "display_name": "Humidity",
+    "category_name": "Environmental"
+  },
+  {
+    "column_name": "ft_manufacturer",
+    "display_name": "Manufacturer",
+    "category_name": "Specifications"
+  },
+  {
+    "column_name": "model",
+    "display_name": "Model",
+    "category_name": "Specifications"
+  },
+  {
+    "column_name": "country_of_origin",
+    "display_name": "COO",
+    "category_name": "Specifications"
+  }
+]

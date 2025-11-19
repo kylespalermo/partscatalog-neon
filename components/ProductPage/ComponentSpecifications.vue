@@ -1,48 +1,54 @@
 <script setup>
+  import columnConfigurations from './column_configurations'
 const props = defineProps({
   product: Object,
 });
 
-const featureList = computed(() => {
-  let features = props.product.features;
-  if (!features) return [];
-
-  // Parse string if necessary
-  if (typeof features === "string") {
-    try {
-      features = JSON.parse(features);
-    } catch (err) {
-      console.error("Failed to parse features JSON:", err);
-      return [];
-    }
-  }
-
-  return Object.entries(features).map(([key, value]) => ({
-    key,
-    label: formatLabel(key),
-    value,
-  }));
-});
-
-// helper: format feature keys
-function formatLabel(key) {
-  return key
-    .replace(/^ft_/, "") // remove ft_ prefix
-    .replace(/_/g, " ") // underscores ? spaces
-    .replace(/^\w/, (c) => c.toUpperCase()); // capitalize first letter
+let allProductProperties = {
+  ...props.product,
+  ...props.product.features,
+  ...props.product.application
 }
+delete allProductProperties.features
+delete allProductProperties.application
+
+const categorizedProductData = Object.values(
+  columnConfigurations.reduce((acc, col) => {
+    const cat = col.category_name;
+
+    if (!acc[cat]) {
+      acc[cat] = {
+        category_name: cat,
+        columns: []
+      };
+    }
+    if (allProductProperties[col.column_name]){
+      acc[cat].columns.push({
+        column_name: col.column_name,
+        display_name: col.display_name,
+        value: allProductProperties[col.column_name]
+      });
+    }
+
+    return acc;
+  }, {})
+);
+console.log(categorizedProductData);
+
+
 </script>
 <template>
   <div class="mt-[70px]">
     <h3 class="font-bold mb-4">Component specifications</h3>
-    <ProductPageHorizontalTable :featureList="featureList" />
-
+    <ProductPageHorizontalTable :data="categorizedProductData.find((category) => category.category_name === 'Specifications')" />
     <div class="component-grid">
-      <ProductPageVerticalTable />
-      <ProductPageVerticalTable />
-      <ProductPageVerticalTable />
-      <ProductPageVerticalTable />
-      <ProductPageVerticalTable />
+      <ProductPageVerticalTable 
+              v-for="category in categorizedProductData"
+              :key="category.category_name"
+              :data="category"
+              
+              />
+      
     </div>
   </div>
 </template>
