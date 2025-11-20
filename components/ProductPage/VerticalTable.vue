@@ -11,7 +11,7 @@ console.log(props.data);
     <table class="cp-table">
       <tr  v-for="item in data.columns">
         <td>{{  item.display_name }}</td>
-        <td>{{  item.value  }}</td>
+        <td>{{  item.value || 'n/a'  }}</td>
       </tr>
      
     </table>

@@ -22,13 +22,13 @@ const categorizedProductData = Object.values(
         columns: []
       };
     }
-    if (allProductProperties[col.column_name]){
+    // if (allProductProperties[col.column_name]){
       acc[cat].columns.push({
         column_name: col.column_name,
         display_name: col.display_name,
         value: allProductProperties[col.column_name]
       });
-    }
+    // }
 
     return acc;
   }, {})

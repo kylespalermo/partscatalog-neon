@@ -25,7 +25,7 @@ console.log(props.data);
             :key="item.key"
             class="border border-gray-300 p-2 text-center"
           >
-            {{ item.value }}
+            {{ item.value ?? 'n/a' }}
           </td>
         </tr>
       </tbody>
