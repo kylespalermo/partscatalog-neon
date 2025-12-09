@@ -3,7 +3,11 @@ import { ref } from "vue";
 import { useRoute, useRouter } from "nuxt/app";
 
 const props = defineProps({
-    isTransparent: Boolean
+    isTransparent: Boolean,
+    wideGutters: {
+      type: Boolean,
+      default: false
+    }
 })
 
 const isOpen = ref(false); // or true, depending on default
@@ -12,7 +16,7 @@ const router = useRouter();
 </script>
 
 <template>
-  <section class="w-full inner-nav w-full max-w-7xl main-c">
+  <section class="w-full max-w-7xl main-c" :class="{ 'inner-nav': !wideGutters }">
     <nav class="top-nav text-white" :style="{ 'background-color': isTransparent ? '' : '#ff4f00' }">
       <div class="mx-auto">
         <div class="flex items-center justify-between">

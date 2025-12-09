@@ -55,7 +55,7 @@ const convertCode = (code) => {
 </script>
 
 <template class="!bg-white">
-  <MainNavbar />
+    <MainNavbar />
   <section class="inner-container">
     <div class="flex mt-[-13px] mb-[10px]">
       <client-only>

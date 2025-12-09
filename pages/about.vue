@@ -9,8 +9,8 @@ const isOpen = ref(false); // or true, depending on default
 
 <template>
   <body class="antialiased text-slate-800 bg-slate-50 ">
-    <section class="w-full inner-nav" style="background-color: #ff4f00;">
-      <MainNavbar isTransparent="true"/>
+    <section class="w-full" style="background-color: #ff4f00;">
+      <MainNavbar isTransparent="true" wide-gutters="true"/>
     </section>
     <header class="relative">
       <div class="relative w-full overflow-hidden">
