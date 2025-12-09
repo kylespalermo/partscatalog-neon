@@ -163,7 +163,11 @@ const convertCode = (code) => {
 		</div>
        	</div>
 		<div class="relative top-[40px]">
-		<Button label="Request quote" class="refine-btn"></Button> &nbsp;&nbsp;&nbsp; <span class="inline-flex items-center gap-1 website">{{product.website}}  <NuxtLink class="" :to="`${product.website}`" target="_blank"><client-only><FontAwesomeIcon :icon="['fas', 'external-link-alt']" class="h-4 text-black"/></client-only></NuxtLink></span>
+      <NuxtLink class="" to="mailto:sales@exosearch.io" target="_blank">
+		<Button label="" class="refine-btn">
+        Request quote
+      </Button> 
+    </NuxtLink>
 	   	</div>
 		<div class="overflow-x-auto mt-[70px]">
 		<p class="font-bold mb-4">Component specifications</p>

@@ -74,11 +74,8 @@
         <div class="max-w-3xl text-white">
           <p class="text-sm uppercase tracking-widest text-white/80 mb-2">About Exosearch.io</p>
           <h1 class="text-3xl md:text-5xl font-extrabold leading-tight drop-shadow-lg">
-            Technical Search for high-performance Aerospace products & R&D
+            Technical Search for high-performance aerospace products & R&D
           </h1>
-          <p class="mt-4 text-sm md:text-base text-white/90 max-w-2xl">
-            Surface high-integrity aerospace products, services, and technologies with precision.
-          </p>
         </div>
       </div>
     </div>

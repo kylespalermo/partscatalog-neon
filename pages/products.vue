@@ -408,7 +408,8 @@ function selectCategory(category, event) {
                :value="searchQuery ? finalFilteredProducts : matchedProducts"
 			    @row-click="goToProduct"
             >
-                <Column sortable key="product" field="product" header="Product"/>
+                <Column sortable key="product" field="model" header="Model"/>
+                <Column sortable key="product" field="manufacturer" header="Manufacturer"/>
                 <Column sortable  key="applications" field="applications" header="Applications">
                     <template #body="{ data }">
                         <div class="tags-cell">
