@@ -92,36 +92,6 @@ const isOpen = ref(false);
           </div>
         </div>
       </div>
-  <div class="grid  flex items-center card-box">
-    <!-- Each child div -->
-    <div class="flex gap-2 card-flex justify-between">
-	
-      <div class="card basis-auto">
-        <span><span class="intro text-white">The technical search platform for aerospace</span><span class="surfacetext text-white">Exosearch surfaces high-performance systems, vetted for mission critical applications.</span></span>
-						
-      </div>
-	  
-      <div class="card basis-auto form-box flex items-center justify-start">
-       <div class="card-box-bot">
-					<div class="search_input flex justify-between flex-wrap">
-					<InputText name="email" class="search_products" type="text" placeholder="Enter keywords"  v-model="search"/>
-       
-					<Button @click="handleSearch" class="find_component  text-white" type="submit" severity="secondary" label="Find Components"  /> 
-					</div>
-					<div class="browse_cat">
-						<p class="b-text">Or browse components by applications</p>
-						<div class="wrap flex flex-wrap gap-2">
-							<Button class="product_types" asChild v-for="productType in productTypes" v-slot="slotProps">
-								<NuxtLink class=" border-0 no-underline p-btns" :to="{path: '/products', query: { type: productType }}">{{ productType }}</NuxtLink>
-							</Button>
-						</div>
-					</div>
-					</div>
-      </div>
-    </div>
-  </div>
-    
-   
     </section>
   </div>
 </template>

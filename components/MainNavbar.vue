@@ -26,7 +26,7 @@ const router = useRouter();
           <!-- Desktop Menu -->
           <div class="hidden md:flex">
             <a href="#" class="">All products</a>
-            <a href="#" class="">About</a>
+            <a href="/about" class="">About</a>
             <a href="#" class="">Vendor sign-in</a>
           </div>
 
@@ -58,7 +58,7 @@ const router = useRouter();
       <!-- Mobile Menu -->
       <div v-if="isOpen" class="md:hidden px-4 pb-3 space-y-2">
         <a href="#" class="block py-2 hover:text-yellow-400">All products</a>
-        <a href="#" class="block py-2 hover:text-yellow-400">About</a>
+        <a href="/about" class="block py-2 hover:text-yellow-400">About</a>
         <a href="#" class="block py-2 hover:text-yellow-400">Vendor sign-in</a>
       </div>
     </nav>
