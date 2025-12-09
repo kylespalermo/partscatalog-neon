@@ -27,12 +27,18 @@ const categorizedProductData = Object.values(
       column_name: col.column_name,
       display_name: col.display_name,
       value: allProductProperties[col.column_name],
+      order: col.order
     });
     // }
 
     return acc;
   }, {})
 );
+
+categorizedProductData.forEach(category => {
+  category.columns.sort((a, b) => a.order - b.order);
+});
+
 </script>
 <template>
   <div class="mt-[70px]">
