@@ -193,7 +193,6 @@ color: #fff!important;
     color: #1728E5;
 }
 .inner-nav .top-nav{
-background-color: #FF4F00;
 max-width: 1276px;
 margin: 0 auto;
 padding: 5px 12px;
@@ -202,7 +201,7 @@ border-radius: 4px;
 .inner-nav{
     padding: 25px 20px;
 }
-.inner-conatiner{
+.inner-container{
     max-width: 1316px;
 margin: 0 auto;
 padding: 24px 20px;
@@ -350,14 +349,14 @@ font-size: 13px!important;
 font-weight: 500!important;
 }
 /* component specification for product details page */
-.componant-grid{
+.component-grid{
             display: grid!important;
             grid-template-columns: repeat(1,1fr)!important;
             gap: 20px!important;
 			margin-top:10px!important; 
         }
           @media(min-width:768px){
-               .componant-grid{
+               .component-grid{
                  grid-template-columns: repeat(2,1fr)!important;
 				  display: grid!important;
 					
@@ -366,7 +365,7 @@ font-weight: 500!important;
                }
         }
         @media(min-width:1024px){
-               .componant-grid{
+               .component-grid{
                  grid-template-columns: repeat(3,1fr)!important;
 				  display: grid!important;
 					

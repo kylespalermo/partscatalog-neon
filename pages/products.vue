@@ -1,157 +1,154 @@
 <script setup>
+import { ref, computed, onMounted, nextTick } from "vue";
+import { useRoute, useRouter } from "nuxt/app";
 
-    import { ref, computed, onMounted, nextTick } from 'vue';
-    import { useRoute, useRouter } from 'nuxt/app';
-	
-	// fuzzy search bar code for filter
-	import Fuse from 'fuse.js'
-  
-  const isOpen = ref(false) // or true, depending on default
-  
-  const { data, error } = await useFetch('/api/all_products')
-  const products = computed(() => data.value?.products || [])
-    const productTypes = useProductTypes(products);
-    // const productApplications = useProductApplications(products);
+// fuzzy search bar code for filter
+import Fuse from "fuse.js";
 
-    const route = useRoute();
-    const router = useRouter();
-	
-	const searchQuery = route.query.search || ''
+const isOpen = ref(false); // or true, depending on default
 
-		
-    // Store selected filters in a reactive state
-    const selectedType = ref();
-    const selectedParametricFeatures = ref([]);
-    const selectedApplications = ref([]);
-    const selectedCountries = ref([])
+const { data, error } = await useFetch("/api/all_products");
+const products = computed(() => data.value?.products || []);
+const productTypes = useProductTypes(products);
+// const productApplications = useProductApplications(products);
 
-	
-    // Store the initial query parameter but don't reactive track it
-	const initialQueryType = route.query.type;
+const route = useRoute();
+const router = useRouter();
 
-	// Set initial type when products are loaded
-	watch(productTypes, (types) => {
-		if (types?.length && !selectedType.value) {
-			if (initialQueryType && types.includes(initialQueryType)) {
-				selectedType.value = initialQueryType;
-			} else {
-				selectedType.value = types[0];
-			}
-		}
-	}, { immediate: true });
-	
-	 watch(error, (err) => {
-        if (err) {
-            console.error('Error loading products:', err);
-        }
-    });
+const searchQuery = route.query.search || "";
 
+// Store selected filters in a reactive state
+const selectedType = ref();
+const selectedParametricFeatures = ref([]);
+const selectedApplications = ref([]);
+const selectedCountries = ref([]);
 
+// Store the initial query parameter but don't reactive track it
+const initialQueryType = route.query.type;
 
-    const typeFilteredProducts = computed(() => {
-        if (products.value) {
-		//  if (searchQuery.value) return products.value // skip filtering when search is active
-
-            return products.value.filter(product => product.type === selectedType.value)
-        }
-    });
-
-    function labelFromFeatureKey(key) {
-        return key
-            .replace(/^ft_/, '')       // remove "ft_" prefix
-            .replace(/_/g, ' ')        // replace remaining underscores with spaces
-            .replace(/^\w/, c => c.toUpperCase()); // capitalize first letter
+// Set initial type when products are loaded
+watch(
+  productTypes,
+  (types) => {
+    if (types?.length && !selectedType.value) {
+      if (initialQueryType && types.includes(initialQueryType)) {
+        selectedType.value = initialQueryType;
+      } else {
+        selectedType.value = types[0];
+      }
     }
-    
+  },
+  { immediate: true }
+);
 
-    const { transform } = useTransformProducts();
-    const transformedData = computed(() => {
-        return transform(typeFilteredProducts.value);
+watch(error, (err) => {
+  if (err) {
+    console.error("Error loading products:", err);
+  }
+});
+
+const typeFilteredProducts = computed(() => {
+  if (products.value) {
+    //  if (searchQuery.value) return products.value // skip filtering when search is active
+
+    return products.value.filter(
+      (product) => product.type === selectedType.value
+    );
+  }
+});
+
+function labelFromFeatureKey(key) {
+  return key
+    .replace(/^ft_/, "") // remove "ft_" prefix
+    .replace(/_/g, " ") // replace remaining underscores with spaces
+    .replace(/^\w/, (c) => c.toUpperCase()); // capitalize first letter
+}
+
+const { transform } = useTransformProducts();
+const transformedData = computed(() => {
+  return transform(typeFilteredProducts.value);
+});
+
+// All unique countries from ALL products
+const uniqueCountries = computed(() => {
+  return [...new Set(products.value.map((p) => p.country_of_origin))];
+});
+
+// select all countries by default when products are ready
+watchEffect(() => {
+  if (uniqueCountries.value.length && selectedCountries.value.length === 0) {
+    selectedCountries.value = [...uniqueCountries.value]; // select all
+  }
+});
+
+const finalFilteredProducts = computed(() => {
+  if (!transformedData.value) return [];
+  // If there's a search query  match by model, key, or manufacturer
+  if (searchQuery) {
+    const filtered = transformedData.value.filter((product) => {
+      return (
+        product.model?.toLowerCase().includes(searchQuery) ||
+        product.key?.toLowerCase().includes(searchQuery) ||
+        product.manufacturer?.toLowerCase().includes(searchQuery)
+      );
     });
 
-	// All unique countries from ALL products
-	const uniqueCountries = computed(() => {
-	  return [...new Set(products.value.map(p => p.country_of_origin))]
-	})
+    return filtered;
+  } else {
+    // Else  filter using selected applications & countries
 
-	// select all countries by default when products are ready
-	watchEffect(() => {
-	  if (uniqueCountries.value.length && selectedCountries.value.length === 0) {
-		selectedCountries.value = [...uniqueCountries.value]  // select all
-	  }
-	})
-		
-    const finalFilteredProducts = computed(() => {
-	  if (!transformedData.value) return []
-		  // If there's a search query  match by model, key, or manufacturer
-		  if (searchQuery) {
+    return transformedData.value.filter((product) => {
+      const matchesApplications =
+        selectedApplications.value.length === 0 ||
+        selectedApplications.value.some((app) =>
+          product.applications?.includes(app)
+        );
 
-			const filtered = transformedData.value.filter(product => {
-			  return (
-				product.model?.toLowerCase().includes(searchQuery) ||
-				product.key?.toLowerCase().includes(searchQuery) ||
-				product.manufacturer?.toLowerCase().includes(searchQuery)
-			  )
-			})
-			
-			return filtered
-		  }else{
-		
-		  // Else  filter using selected applications & countries
-		  
-		  return transformedData.value.filter(product => {
-			const matchesApplications =
-			  selectedApplications.value.length === 0 ||
-			  selectedApplications.value.some(app =>
-				product.applications?.includes(app)
-			  )
-		
-			const matchesCountry =
-			  selectedCountries.value.length === 0 ||
-			  selectedCountries.value.includes(product.country_of_origin)
-		
-			return matchesApplications && matchesCountry
-		  })
-		  }
-		})
+      const matchesCountry =
+        selectedCountries.value.length === 0 ||
+        selectedCountries.value.includes(product.country_of_origin);
 
-
-    const parametricFeatures = computed(() => {
-
-        const first = transformedData.value?.[0];
-        if (!first) return [];
-            return Object.keys(first).filter(key => key.startsWith('ft_'));
+      return matchesApplications && matchesCountry;
     });
+  }
+});
 
-    function selectDefaultParametricFeatures() {
-        selectedParametricFeatures.value = parametricFeatures.value.slice(0, 5);
-    }
+const parametricFeatures = computed(() => {
+  const first = transformedData.value?.[0];
+  if (!first) return [];
+  return Object.keys(first).filter((key) => key.startsWith("ft_"));
+});
 
-	
-    onMounted(() => {
-		
-        selectDefaultParametricFeatures();
-    });
+function selectDefaultParametricFeatures() {
+  selectedParametricFeatures.value = parametricFeatures.value.slice(0, 5);
+}
 
-    watch(selectedType, () => {
-        selectDefaultParametricFeatures();
-    })
+onMounted(() => {
+  selectDefaultParametricFeatures();
+});
 
-    const uniqueApplications = computed(() => {
-        const appSet = new Set()
-	        transformedData.value.forEach(product => {
-            product.applications?.forEach(app => appSet.add(app))
-        })
+watch(selectedType, () => {
+  selectDefaultParametricFeatures();
+});
 
-        return Array.from(appSet)
-    })
-	watchEffect(() => {
-	  if (uniqueApplications.value.length && selectedApplications.value.length === 0) {
-		selectedApplications.value = [...uniqueApplications.value]  // select all apps
-	  }
-	})
+const uniqueApplications = computed(() => {
+  const appSet = new Set();
+  transformedData.value.forEach((product) => {
+    product.applications?.forEach((app) => appSet.add(app));
+  });
 
-   /* const uniqueCountries = computed(() => {
+  return Array.from(appSet);
+});
+watchEffect(() => {
+  if (
+    uniqueApplications.value.length &&
+    selectedApplications.value.length === 0
+  ) {
+    selectedApplications.value = [...uniqueApplications.value]; // select all apps
+  }
+});
+
+/* const uniqueCountries = computed(() => {
         const countrySet = new Set()
 
         transformedData.value.forEach(product => {
@@ -163,23 +160,23 @@
         return Array.from(countrySet)
     })*/
 
-    const visible = ref(false);
+const visible = ref(false);
 
-	// Search input
-	const search = ref('')
-	
-	const matchedProducts = computed(() => {
-	  const term = search.value.trim().toLowerCase();
-	  if (!term) return finalFilteredProducts.value;
-	
-	  return finalFilteredProducts.value.filter(product => {
-		return (
-		  (product.product?.toLowerCase().includes(term)) ||
-		  (product.sku?.toLowerCase().includes(term)) ||
-		  (product.description?.toLowerCase().includes(term))
-		);
-	  });
-	});
+// Search input
+const search = ref("");
+
+const matchedProducts = computed(() => {
+  const term = search.value.trim().toLowerCase();
+  if (!term) return finalFilteredProducts.value;
+
+  return finalFilteredProducts.value.filter((product) => {
+    return (
+      product.product?.toLowerCase().includes(term) ||
+      product.sku?.toLowerCase().includes(term) ||
+      product.description?.toLowerCase().includes(term)
+    );
+  });
+});
 
 // toggle refine result section
 
@@ -205,21 +202,23 @@ function toggleParametric(feature) {
 
 function toggleCountry(country) {
   if (selectedCountries.value.includes(country)) {
-    selectedCountries.value = selectedCountries.value.filter(c => c !== country)
+    selectedCountries.value = selectedCountries.value.filter(
+      (c) => c !== country
+    );
   } else {
-    selectedCountries.value.push(country)
+    selectedCountries.value.push(country);
   }
 }
 
 // click on row go to product details
 function goToProduct(event) {
-  const productKey = event.data.key   // use product key
-  router.push(`/${productKey}`)
+  const productKey = event.data.key; // use product key
+  router.push(`/${productKey}`);
 }
 
 // go back function
 function goBack() {
-  router.back()   // same as window.history.back()
+  router.back(); // same as window.history.back()
 }
 
 // category selection function
@@ -231,264 +230,265 @@ function selectCategory(category, event) {
   }
   selectedType.value = category;
 }
-
 </script>
 
 <template class="!bg-white">
-    <section class="w-full inner-nav">
-		 <nav class="top-nav text-white">
-      <div class="mx-auto">
-        <div class="flex items-center justify-between">
-          <!-- Brand -->
-          <div class="flex-shrink-0">
-            <span 
-              @click="$router.push('/')" 
-              class="cursor-pointer logo"
-            >
-              exo<span class="font-bold">search</span>
-            </span>
-          </div>
+  <section class="w-full inner-nav">
+   
+          <MainNavbar />
+  </section>
+  <section class="inner-container">
+    <div class="flex mt-[-13px] mb-[10px]">
+      <a
+        @click.prevent="goBack"
+        class="flex items-center text-blue-600 hover:underline cursor-pointer float-right"
+      >
+        <FontAwesomeIcon :icon="['fas', 'chevron-left']" class="h-4" />
+        <FontAwesomeIcon :icon="['fas', 'chevron-left']" class="h-4 mr-1" />
+        Back
+      </a>
+    </div>
+    <h3 class="in-heading">Explore products</h3>
 
-          <!-- Desktop Menu -->
-          <div class="hidden md:flex ">
-            <a href="#" class="">All products</a>
-            <a href="#" class="">About</a>
-            <a href="#" class="">Vendor sign-in</a>
-          </div>
-
-          <!-- Mobile Toggle Button -->
-          <div class="md:hidden">
+    <form>
+      <template v-if="products">
+        <fieldset>
+          <legend class="font-semibold sh-c">Showing components for</legend>
+          <div class="small-badges">
             <button
-              @click="isOpen = !isOpen"
-              type="button"
-              class="inline-flex items-center justify-center p-2 rounded-md"
+              v-for="productType in productTypes"
+              :key="productType"
+              @click="selectCategory(productType, $event)"
+              :class="[
+                'appname category-btn',
+                selectedType === productType
+                  ? 'category-active'
+                  : 'category-inactive',
+              ]"
             >
-              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
+              {{ productType }}
             </button>
           </div>
-        </div>
-      </div>
-
-      <!-- Mobile Menu -->
-      <div v-if="isOpen" class="md:hidden px-4 pb-3 space-y-2">
-        <a href="#" class="block py-2 hover:text-yellow-400">All products</a>
-        <a href="#" class="block py-2 hover:text-yellow-400">About</a>
-        <a href="#" class="block py-2 hover:text-yellow-400">Vendor sign-in</a>
-      </div>
-    </nav>
-		</section>
-		<section class="inner-conatiner">
-		<div class="flex mt-[-13px] mb-[10px]">
-		 <a @click.prevent="goBack" class="flex items-center text-blue-600 hover:underline cursor-pointer float-right">
-			<FontAwesomeIcon :icon="['fas', 'chevron-left']" class="h-4"/>
-			<FontAwesomeIcon :icon="['fas', 'chevron-left']" class="h-4 mr-1"/>
-			Back
-		  </a>
-		  </div>
-        <h3 class="in-heading">Explore products</h3>
-		
-
-        <form>
-            <template v-if="products">
-                <fieldset>
-                    <legend class="font-semibold sh-c">Showing components for</legend>
-					<div class="small-badges">
-						<button
-							v-for="productType in productTypes"
-							:key="productType"
-							@click="selectCategory(productType, $event)"
-							:class="[
-								'appname category-btn',
-								selectedType === productType
-									? 'category-active'
-									: 'category-inactive'
-							]"
-						>
-							{{ productType }}
-						</button>
-					</div>
-
-                </fieldset>
-				<Button @click="visible = true" label="Refine results" class="refine-btn"></Button>
-                <Drawer v-model:visible="visible" header="Refine results">
-				
-              <!-- <div class="flex items-center gap-2 mb-4">
+        </fieldset>
+        <Button
+          @click="visible = true"
+          label="Refine results"
+          class="refine-btn"
+        ></Button>
+        <Drawer v-model:visible="visible" header="Refine results">
+          <!-- <div class="flex items-center gap-2 mb-4">
 							   <svg  @click="showFilters = !showFilters" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="icon-sm text-token-text-tertiary"><path d="M12.1338 5.94433C12.3919 5.77382 12.7434 5.80202 12.9707 6.02929C13.1979 6.25656 13.2261 6.60807 13.0556 6.8662L12.9707 6.9707L8.47067 11.4707C8.21097 11.7304 7.78896 11.7304 7.52926 11.4707L3.02926 6.9707L2.9443 6.8662C2.77379 6.60807 2.80199 6.25656 3.02926 6.02929C3.25653 5.80202 3.60804 5.77382 3.86617 5.94433L3.97067 6.02929L7.99996 10.0586L12.0293 6.02929L12.1338 5.94433Z"></path></svg>
 				  <span class="font-semibold text-lg">Refine Results</span>
 				 
 				</div>-->
-				
-					<fieldset v-if="uniqueCountries.length > 1">
-                        <p class="font-medium mb-2">Filter by countries of origin</p>
-                        <div v-if="uniqueCountries.length" class="mb-4">
-							<div class="flex flex-wrap gap-2">
-							  <button
-							  type="button"
-							  v-for="country in uniqueCountries"
-							  :key="country"
-							  @click="toggleCountry(country)"
-							  :class="[
-								'flex items-center gap-2 blue-btn',
-								selectedCountries.includes(country)
-								  ? 'text-[#1728e5] bg-[#e2eafa]'
-								  : '!bg-[#dadada] text-[#222222] border-0'
-							  ]"
-							>
-							  <FontAwesomeIcon v-if="selectedCountries.includes(country)" :icon="['fas', 'check']" class="h-4"/>
-							  <FontAwesomeIcon v-else :icon="['fas', 'plus']" class="h-4"/>
-							  <span>{{ country }}</span>
-							</button>
-							</div>
-						  </div>
-                    </fieldset>
-					
-                   <div v-if="uniqueApplications.length">
-					  <p class="font-medium mb-2">Filter by application</p>
-					  <div class="flex flex-wrap gap-2">
-						<button type="button"
-						  v-for="app in uniqueApplications"
-						  :key="app"
-						  @click="toggleApplication(app)"
-						  :class="[
-							'flex items-center gap-2 blue-btn',
-							selectedApplications.includes(app)
-							  ? 'text-[#1728e5] bg-[#e2eafa]'
-								  : '!bg-[#dadada] text-[#222222] border-0'
-						  ]"
-						>
-						<FontAwesomeIcon v-if="selectedApplications.includes(app)" :icon="['fas', 'check']" class="h-4"/>
-						<FontAwesomeIcon v-else :icon="['fas', 'plus']" class="h-4"/>
-						  <span>{{ app }}</span>&nbsp;&nbsp;
-						   
-						</button>
-					  </div>
-					</div>
-                    
-                    <fieldset class="mt-4">
-                        <p class="font-medium side-sub-t">Show/hide parametric columns</p>
-                         <div class="flex flex-wrap gap-2">
-						<button
-						  type="button"
-						  v-for="parametricFeature in parametricFeatures"
-						  :key="parametricFeature"
-						  @click="toggleParametric(parametricFeature)"
-						  :class="[
-							'flex items-center gap-1 blue-btn',
-							selectedParametricFeatures.includes(parametricFeature)
-							  ? 'text-[#1728e5] bg-[#e2eafa]'
-								  : '!bg-[#dadada] text-[#222222] border-0'
-						  ]"
-						>
-						  <span>{{ labelFromFeatureKey(parametricFeature) }}</span> &nbsp;&nbsp;
-						 <FontAwesomeIcon v-if="selectedParametricFeatures.includes(parametricFeature)" :icon="['fas', 'close']" class="h-4"/>
-						 <FontAwesomeIcon v-else :icon="['fas', 'plus']" class="h-4"/>
-						</button>
-					  </div>
-                    </fieldset>
-					
-					<div class="search-form-sec">
-					<p class="s-t">Search within</p>
-					<input
-					  v-model="search"
-					  placeholder="Enter term"
-					  class="s-inp w-full"
-					/>
-					</div>
-               </Drawer>
-            </template>
-        </form>
-        <main>
-            <DataTable
-                class="cursor-pointer my-table w-full"
-                columnResizeMode="expand"
-                v-if="products"
-               :value="searchQuery ? finalFilteredProducts : matchedProducts"
-			    @row-click="goToProduct"
-            >
-                <Column sortable key="product" field="product" header="Product"/>
-                <Column sortable  key="applications" field="applications" header="Applications">
-                    <template #body="{ data }">
-                        <div class="tags-cell">
-                            <Tag v-for="(application, index) in data.applications" :key="index" :value="application" class="text-[#1728e5] bg-[#e2eafa] border-0 no-underline text-[17px]] pr-[11px] pl-[8px] font-[400]"></Tag>
-                        </div>
-                    </template>
-                </Column>
-                <Column sortable key="country_of_origin" field="country_of_origin" header="Country of origin" />
-                <template v-for="selectedParametricFeature in selectedParametricFeatures">
-                    <Column sortable :field="selectedParametricFeature" :header="labelFromFeatureKey(selectedParametricFeature)" />
-                </template>
-				
-            </DataTable>
-        </main>
-    </section>
+
+          <fieldset v-if="uniqueCountries.length > 1">
+            <p class="font-medium mb-2">Filter by countries of origin</p>
+            <div v-if="uniqueCountries.length" class="mb-4">
+              <div class="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  v-for="country in uniqueCountries"
+                  :key="country"
+                  @click="toggleCountry(country)"
+                  :class="[
+                    'flex items-center gap-2 blue-btn',
+                    selectedCountries.includes(country)
+                      ? 'text-[#1728e5] bg-[#e2eafa]'
+                      : '!bg-[#dadada] text-[#222222] border-0',
+                  ]"
+                >
+                  <FontAwesomeIcon
+                    v-if="selectedCountries.includes(country)"
+                    :icon="['fas', 'check']"
+                    class="h-4"
+                  />
+                  <FontAwesomeIcon v-else :icon="['fas', 'plus']" class="h-4" />
+                  <span>{{ country }}</span>
+                </button>
+              </div>
+            </div>
+          </fieldset>
+
+          <div v-if="uniqueApplications.length">
+            <p class="font-medium mb-2">Filter by application</p>
+            <div class="flex flex-wrap gap-2">
+              <button
+                type="button"
+                v-for="app in uniqueApplications"
+                :key="app"
+                @click="toggleApplication(app)"
+                :class="[
+                  'flex items-center gap-2 blue-btn',
+                  selectedApplications.includes(app)
+                    ? 'text-[#1728e5] bg-[#e2eafa]'
+                    : '!bg-[#dadada] text-[#222222] border-0',
+                ]"
+              >
+                <FontAwesomeIcon
+                  v-if="selectedApplications.includes(app)"
+                  :icon="['fas', 'check']"
+                  class="h-4"
+                />
+                <FontAwesomeIcon v-else :icon="['fas', 'plus']" class="h-4" />
+                <span>{{ app }}</span
+                >&nbsp;&nbsp;
+              </button>
+            </div>
+          </div>
+
+          <fieldset class="mt-4">
+            <p class="font-medium side-sub-t">Show/hide parametric columns</p>
+            <div class="flex flex-wrap gap-2">
+              <button
+                type="button"
+                v-for="parametricFeature in parametricFeatures"
+                :key="parametricFeature"
+                @click="toggleParametric(parametricFeature)"
+                :class="[
+                  'flex items-center gap-1 blue-btn',
+                  selectedParametricFeatures.includes(parametricFeature)
+                    ? 'text-[#1728e5] bg-[#e2eafa]'
+                    : '!bg-[#dadada] text-[#222222] border-0',
+                ]"
+              >
+                <span>{{ labelFromFeatureKey(parametricFeature) }}</span>
+                &nbsp;&nbsp;
+                <FontAwesomeIcon
+                  v-if="selectedParametricFeatures.includes(parametricFeature)"
+                  :icon="['fas', 'close']"
+                  class="h-4"
+                />
+                <FontAwesomeIcon v-else :icon="['fas', 'plus']" class="h-4" />
+              </button>
+            </div>
+          </fieldset>
+
+          <div class="search-form-sec">
+            <p class="s-t">Search within</p>
+            <input
+              v-model="search"
+              placeholder="Enter term"
+              class="s-inp w-full"
+            />
+          </div>
+        </Drawer>
+      </template>
+    </form>
+    <main>
+      <DataTable
+        class="cursor-pointer my-table w-full"
+        columnResizeMode="expand"
+        v-if="products"
+        :value="searchQuery ? finalFilteredProducts : matchedProducts"
+        @row-click="goToProduct"
+      >
+        <Column sortable key="product" field="model" header="Model" />
+        <Column
+          sortable
+          key="product"
+          field="manufacturer"
+          header="Manufacturer"
+        />
+        <Column
+          sortable
+          key="applications"
+          field="applications"
+          header="Applications"
+        >
+          <template #body="{ data }">
+            <div class="tags-cell">
+              <Tag
+                v-for="(application, index) in data.applications"
+                :key="index"
+                :value="application"
+                class="text-[#1728e5] bg-[#e2eafa] border-0 no-underline text-[17px]] pr-[11px] pl-[8px] font-[400]"
+              ></Tag>
+            </div>
+          </template>
+        </Column>
+        <Column
+          sortable
+          key="country_of_origin"
+          field="country_of_origin"
+          header="Country of origin"
+        />
+        <template
+          v-for="selectedParametricFeature in selectedParametricFeatures"
+        >
+          <Column
+            sortable
+            :field="selectedParametricFeature"
+            :header="labelFromFeatureKey(selectedParametricFeature)"
+          />
+        </template>
+      </DataTable>
+    </main>
+  </section>
 </template>
 
 <style scoped>
-
 h1 {
-    grid-column: 1 / span 12;
-    grid-row: 1;
+  grid-column: 1 / span 12;
+  grid-row: 1;
 }
 
 form {
-    grid-column: 1 / span 12;
-    grid-row: 2;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    align-items: start;
+  grid-column: 1 / span 12;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: start;
 }
 
 main {
-    grid-column: 1 / span 12;
-    grid-row: 3;
+  grid-column: 1 / span 12;
+  grid-row: 3;
 }
 
 .cards-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .my-table :deep(.p-datatable-table) {
   table-layout: auto !important;
   width: auto;
   white-space: nowrap;
-  td, th {
+  td,
+  th {
     padding: 4px 12px 4px 12px;
   }
 }
 
 .tags-cell {
-    display: flex;
-    gap: 2px;
+  display: flex;
+  gap: 2px;
 }
 
 .category-btn {
-    cursor: pointer;
-    transition: all 0.2s ease;
-    margin-right: 8px;
-    margin-bottom: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-right: 8px;
+  margin-bottom: 4px;
 }
 
 .category-active {
-    background-color: #1728e5;
-    color: white;
-    font-weight: 600;
+  background-color: #1728e5;
+  color: white;
+  font-weight: 600;
 }
 
 .category-inactive {
-    background-color: #f3f4f6;
-    color: #374151;
-    border: 1px solid #d1d5db;
+  background-color: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
 }
 
 .category-inactive:hover {
-    background-color: #e5e7eb;
-    border-color: #9ca3af;
+  background-color: #e5e7eb;
+  border-color: #9ca3af;
 }
-
 </style>
