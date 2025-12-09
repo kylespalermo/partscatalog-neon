@@ -22,23 +22,22 @@ const categorizedProductData = Object.values(
         columns: [],
       };
     }
-    // if (allProductProperties[col.column_name]){
-    acc[cat].columns.push({
-      column_name: col.column_name,
-      display_name: col.display_name,
-      value: allProductProperties[col.column_name],
-      order: col.order
-    });
-    // }
+    if (allProductProperties[col.column_name]) {
+      acc[cat].columns.push({
+        column_name: col.column_name,
+        display_name: col.display_name,
+        value: allProductProperties[col.column_name],
+        order: col.order,
+      });
+    }
 
     return acc;
   }, {})
 );
 
-categorizedProductData.forEach(category => {
+categorizedProductData.forEach((category) => {
   category.columns.sort((a, b) => a.order - b.order);
 });
-
 </script>
 <template>
   <div class="mt-[70px]">
