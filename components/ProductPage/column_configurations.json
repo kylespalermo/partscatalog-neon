@@ -1,0 +1,104 @@
+[
+  {
+    "column_name": "ft_technology",
+    "display_name": "Technology",
+    "category_name": "Specifications",
+    "order": 999
+  },
+  {
+    "column_name": "ft_axis",
+    "display_name": "Axis",
+    "category_name": "Specifications",
+    "order": 999
+  },
+  {
+    "column_name": "ft_g_range",
+    "display_name": "G Range",
+    "category_name": "Specifications",
+    "order": 999
+  },
+  {
+    "column_name": "ft_vdc",
+    "display_name": "Input Voltage",
+    "category_name": "Electrical",
+    "order": 999
+  },
+  {
+    "column_name": "ft_current",
+    "display_name": "Current Draw",
+    "category_name": "Electrical",
+    "order": 999
+  },
+  {
+    "column_name": "ft_Output",
+    "display_name": "Output",
+    "category_name": "Electrical",
+    "order": 999
+  },
+  {
+    "column_name": "ft_applications",
+    "display_name": "Applications",
+    "category_name": "Specifications",
+    "order": 999
+  },
+  {
+    "column_name": "ft_standards",
+    "display_name": "Standards",
+    "category_name": "Specifications",
+    "order": 999
+  },
+  {
+    "column_name": "ft_vibration",
+    "display_name": "Vibration",
+    "category_name": "Environmental",
+    "order": 999
+  },
+  {
+    "column_name": "ft_shock",
+    "display_name": "Shock",
+    "category_name": "Environmental",
+    "order": 999
+  },
+  {
+    "column_name": "ft_weight",
+    "display_name": "Weight",
+    "category_name": "Specifications",
+    "order": 999
+  },
+  {
+    "column_name": "ft_temp_low",
+    "display_name": "Temp Low",
+    "category_name": "Specifications",
+    "order": 999
+  },
+  {
+    "column_name": "ft_temp_high",
+    "display_name": "Temp High",
+    "category_name": "Specifications",
+    "order": 999
+  },
+  {
+    "column_name": "ft_dimensions",
+    "display_name": "Dimensions",
+    "category_name": "Specifications",
+    "order": 999
+  },
+  {
+    "column_name": "manufacturer",
+    "display_name": "Manufacturer",
+    "category_name": "Specifications",
+    "order": 1
+  },
+  {
+    "column_name": "model",
+    "display_name": "Model",
+    "category_name": "Specifications",
+    "order": 1
+  },
+  {
+    "column_name": "country_of_origin",
+    "display_name": "COO",
+    "category_name": "Specifications",
+    "order": 999
+  }
+]
