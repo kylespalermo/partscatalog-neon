@@ -15,6 +15,7 @@ export function useTransformProducts() {
         manufacturer_part_number,
         features = {},
         application = {},
+		source_table
       } = value;
 
        let rawFeatures = features;
@@ -59,7 +60,8 @@ export function useTransformProducts() {
         country_of_origin,
         manufacturer_part_number,
         ...flattenedFeatures,
-        applications: applicationArray
+        applications: applicationArray,
+		source_table
       };
     });
   }
