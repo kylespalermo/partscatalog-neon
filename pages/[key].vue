@@ -104,7 +104,11 @@ const convertCode = (code) => {
     </div>
     <img :src="product.image_url" alt="" />
     <div class="relative top-[40px]">
-      <Button label="Request quote" class="refine-btn"></Button>
+      <Button class="refine-btn">
+        <NuxtLink to="mailto:sales@exosearch.io">
+Request quote
+        </NuxtLink>  
+      </Button>
       &nbsp;&nbsp;&nbsp;
       <span class="inline-flex items-center gap-1 website"
         >{{ product.website }}
