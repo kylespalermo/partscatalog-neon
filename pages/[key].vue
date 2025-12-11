@@ -5,7 +5,8 @@ import "flag-icons/css/flag-icons.min.css";
 const route = useRoute();
 const router = useRouter();
 // Fetch product details using key from the URL
-const { data, error } = await useFetch(`/api/${route.params.key}`, {
+
+const { data, error } = await useFetch(`/api/${route.query.category}/${route.params.key}`, {
   lazy: false,
   server: true,
 });
@@ -55,7 +56,7 @@ const convertCode = (code) => {
 </script>
 
 <template class="!bg-white">
-    <MainNavbar />
+  <MainNavbar />
   <section class="inner-container">
     <div class="flex mt-[-13px] mb-[10px]">
       <client-only>
@@ -105,9 +106,7 @@ const convertCode = (code) => {
     <img :src="product.image_url" alt="" />
     <div class="relative top-[40px]">
       <Button class="refine-btn">
-        <NuxtLink to="mailto:sales@exosearch.io">
-Request quote
-        </NuxtLink>  
+        <NuxtLink to="mailto:sales@exosearch.io"> Request quote </NuxtLink>
       </Button>
       &nbsp;&nbsp;&nbsp;
       <span class="inline-flex items-center gap-1 website"
