@@ -302,7 +302,7 @@ function selectCategory(category, event) {
             </div>
           </fieldset>
 
-          <div v-if="uniqueApplications.length">
+          <div v-if="uniqueApplications.length > 1">
             <p class="font-medium mb-2">Filter by application</p>
             <div class="flex flex-wrap gap-2">
               <button
