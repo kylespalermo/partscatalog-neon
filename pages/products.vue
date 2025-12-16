@@ -24,16 +24,21 @@ const selectedApplications = ref([]);
 const selectedCountries = ref([]);
 
 // Store the initial query parameter but don't reactive track it
-const initialQueryType = route.query.type;
+const initialQueryType = route.query.type?.toLowerCase();
 
 // Set initial type when products are loaded
 watch(
   productTypes,
   (types) => {
     if (types?.length && !selectedType.value) {
-      if (initialQueryType && types.includes(initialQueryType)) {
-        selectedType.value = initialQueryType;
+      const matchedType = types.find(t => t.toLowerCase() === initialQueryType);
+      if (initialQueryType && matchedType) {
+        selectedType.value = matchedType;
       } else {
+        if (initialQueryType) {
+          // Invalid type param, redirect to clean URL
+          router.push({ path: '/products' });
+        }
         selectedType.value = types[0];
       }
     }
@@ -221,6 +226,8 @@ function selectCategory(category, event) {
   // Clear filters when switching categories
   selectedApplications.value = [];
   selectedCountries.value = [];
+  // Update URL query parameter (always lowercase)
+  router.push({ query: { type: category.toLowerCase() } });
 }
 </script>
 
