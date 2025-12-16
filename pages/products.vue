@@ -69,17 +69,13 @@ const transformedData = computed(() => {
   return transform(typeFilteredProducts.value);
 });
 
-// All unique countries from ALL products
+// Unique countries from current category's products only
 const uniqueCountries = computed(() => {
-  return [...new Set(products.value.map((p) => p.country_of_origin))];
+  if (!transformedData.value) return [];
+  return [...new Set(transformedData.value.map((p) => p.country_of_origin))];
 });
 
-// select all countries by default when products are ready
-watchEffect(() => {
-  if (uniqueCountries.value.length && selectedCountries.value.length === 0) {
-    selectedCountries.value = [...uniqueCountries.value]; // select all
-  }
-});
+// No filters selected by default - empty arrays mean no filtering
 
 const finalFilteredProducts = computed(() => {
   if (!transformedData.value) return [];
@@ -139,14 +135,7 @@ const uniqueApplications = computed(() => {
 
   return Array.from(appSet);
 });
-watchEffect(() => {
-  if (
-    uniqueApplications.value.length &&
-    selectedApplications.value.length === 0
-  ) {
-    selectedApplications.value = [...uniqueApplications.value]; // select all apps
-  }
-});
+// No applications selected by default - empty array means no filtering
 
 /* const uniqueCountries = computed(() => {
         const countrySet = new Set()
@@ -229,6 +218,9 @@ function selectCategory(category, event) {
     event.stopPropagation();
   }
   selectedType.value = category;
+  // Clear filters when switching categories
+  selectedApplications.value = [];
+  selectedCountries.value = [];
 }
 </script>
 
