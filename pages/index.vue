@@ -1,11 +1,11 @@
 <script setup>
 // Font: Title Hero (configured in tailwind.config.js as `font-hero`)
-const applications = [
-  {displayName:"Accelerometers", link: "/products?type=Accelerometers"},
-  {displayName:"AHRS", link: "/products?type=AHRS"},
-  {displayName:"Global Positioning Systems", link: "/products?type=gps"},
-  {displayName:"Gyroscopes", link: "/products?type=Gyroscopes"},
-  {displayName:"IMUs", link: "/products?type=IMUs"},
+const featuredCategories = [
+  { displayName: "Accelerometers", link: "/products?type=Accelerometers" },
+  { displayName: "AHRS", link: "/products?type=AHRS" },
+  { displayName: "Global Positioning Systems", link: "/products?type=gps" },
+  { displayName: "Gyroscopes", link: "/products?type=Gyroscopes" },
+  { displayName: "IMUs", link: "/products?type=IMUs" },
 ];
 
 const cards = [
@@ -30,10 +30,10 @@ const cards = [
 </script>
 <template>
   <div class="bg-white text-gray-900 font-hero">
-    <LayoutNavbar />  
+    <LayoutNavbar />
     <!-- HERO -->
-    <section class="px-6">
-      <div class="relative max-w-7xl mx-auto rounded-3xl overflow-hidden">
+    <section class="">
+      <div class="relative mx-auto rounded-3xl overflow-hidden">
         <img
           src="/satellite.jpg"
           alt="Hero background"
@@ -42,7 +42,7 @@ const cards = [
         <div class="absolute inset-0 bg-black/40"></div>
 
         <div
-          class="relative z-10 flex flex-col items-center text-center text-white px-6 py-32"
+          class="relative z-10 flex flex-col items-center text-center text-white px-6 py-24"
         >
           <h1
             class="text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight max-w-4xl"
@@ -54,7 +54,7 @@ const cards = [
           </p>
 
           <!-- SEARCH -->
-          <div class="mt-10 w-full max-w-xl">
+          <div class="lg:mt-48 mt-24 w-full max-w-xl">
             <div class="flex items-center bg-white rounded-full px-4 py-2">
               <input
                 type="text"
@@ -69,7 +69,7 @@ const cards = [
                   class="w-4 h-4"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke="white"
+                  stroke="rgb(248 113 113)"
                   stroke-width="2"
                 >
                   <path
@@ -85,7 +85,7 @@ const cards = [
           <p class="mt-6 text-xs text-gray-300">Or browse by application</p>
           <div class="mt-3 flex flex-wrap justify-center gap-4 text-sm">
             <a
-              v-for="item in applications"
+              v-for="item in featuredCategories"
               :key="item"
               :href="item.link"
               class="text-red-400 hover:underline"
@@ -159,12 +159,11 @@ const cards = [
           }"
         >
           <div class="p-4 flex flex-col justify-end h-full">
-           
             <h4 class="font-semibold">{{ card.title }}</h4>
             <p class="text-xs mt-1">{{ card.subtitle }}</p>
           </div>
           <div class="absolute top-5 left-5">
-             <svg
+            <svg
               width="26"
               height="26"
               viewBox="0 0 30 30"
@@ -194,45 +193,22 @@ const cards = [
         <input
           type="email"
           placeholder="Enter email"
-          class="flex-1 rounded-full border px-4 py-2 text-sm"
+          class="flex-1 rounded-full border px-4 py-2 text-sm bg-gray-100"
         />
-        <button class="bg-black text-white px-6 py-2 rounded-full">
+        <button
+          class="text-white px-6 py-2 rounded-full"
+          style="background-color: #222222"
+        >
           Submit
         </button>
       </div>
-      <label class="flex items-center gap-2 text-xs text-gray-500 mt-3">
-        <input type="checkbox" /> I agree to receive marketing emails
+      <label class="flex items-center gap-2 text-xs text-gray-500 mt-3" style="cursor:pointer">
+        <input type="checkbox" class="checkmark accent-[#222222]" />
+        I agree to receive marketing emails
       </label>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="bg-gray-900 text-gray-300 px-8 py-16">
-      <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-8 text-sm">
-        <div class="font-semibold">
-          <span style="font-weight: 300">exo</span><span>search</span>
-        </div>
-        <div>
-          <p class="font-semibold mb-2">Product categories</p>
-          <ul class="space-y-1">
-            <li v-for="c in applications" :key="c"><a :href="c.link">{{ c.displayName }}</a></li>
-          </ul>
-        </div>
-        <div>
-          <p class="font-semibold mb-2">Services</p>
-          <ul class="space-y-1">
-            <li>Digital Datasheets</li>
-            <li>Technology Partnering</li>
-          </ul>
-        </div>
-        <div>
-          <p class="font-semibold mb-2">Company</p>
-          <ul class="space-y-1">
-            <li><a href="/about">About</a></li>
-            <li>Contact</li>
-            <li>News and Events</li>
-          </ul>
-        </div>
-      </div>
-    </footer>
+    <LayoutFooter :featuredCategories="featuredCategories" />
   </div>
 </template>
+
