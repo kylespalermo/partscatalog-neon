@@ -30,28 +30,7 @@ const cards = [
 </script>
 <template>
   <div class="bg-white text-gray-900 font-hero">
-    <!-- NAVBAR -->
-    <header
-      class="flex items-center justify-between px-8 py-6 max-w-7xl mx-auto"
-    >
-      <div class="flex items-center gap-2">
-        <span class="text-red-500 font-semibold"
-          ><span style="font-weight: 300">exo</span><span>search</span></span
-        >
-        <span
-          class="text-xs px-2 py-0.5 rounded-full border border-gray-300 text-gray-600"
-          >beta</span
-        >
-      </div>
-      <nav class="flex items-center gap-6 text-sm">
-        <a href="/about" class="hover:text-black">About</a>
-        <a href="#" class="hover:text-black">Get listed</a>
-        <button class="bg-black text-white px-4 py-2 rounded-full">
-          Explore components
-        </button>
-      </nav>
-    </header>
-
+    <LayoutNavbar />  
     <!-- HERO -->
     <section class="px-6">
       <div class="relative max-w-7xl mx-auto rounded-3xl overflow-hidden">
