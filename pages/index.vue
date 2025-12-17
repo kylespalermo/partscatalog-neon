@@ -49,7 +49,7 @@ const cards = [
           >
             The technical search platform<br />for aerospace
           </h1>
-          <p class="mt-4 text-sm text-gray-200">
+          <p class="mt-4 text-md text-gray-200">
             Designed by Engineers for Engineers
           </p>
 
@@ -59,7 +59,7 @@ const cards = [
               <input
                 type="text"
                 placeholder="Search hundreds of components"
-                class="flex-1 text-sm text-gray-800 outline-none"
+                class="flex-1 text-md text-gray-800 outline-none"
               />
               <button
                 class="ml-2 w-8 h-8 rounded-full bg-black flex items-center justify-center"
@@ -83,7 +83,7 @@ const cards = [
           </div>
 
           <p class="mt-6 text-xs text-gray-300">Or browse by application</p>
-          <div class="mt-3 flex flex-wrap justify-center gap-4 text-sm">
+          <div class="mt-3 flex flex-wrap justify-center gap-4 text-md">
             <a
               v-for="item in featuredCategories"
               :key="item"
@@ -106,19 +106,13 @@ const cards = [
           critical applications.
         </h2>
       </div>
-      <div class="text-sm text-gray-600 leading-relaxed space-y-4">
+      <div class="text-md text-gray-700 leading-relaxed space-y-4">
+        <p>The future is bright and we’re just getting started!</p>
         <p>
-          The backend of this site is built on data collected from hundreds of
-          hours of meetings with Aerospace Engineers, Manufacturers, and Service
-          Providers to get to the DNA of the data that Engineers need to advance
-          their ideas to the next phase.
-        </p>
-        <p>
-          The spark for this venture was the fragmented nature of the aerospace
-          sourcing chain. A few friendly Engineers said what we planned was
-          already available from multiple sites and search engines. In those
-          words was a sort of “Aha Moment” followed by a challenge to find 5
-          unique items in minutes, something they just couldn’t easily do.
+          We like to think our vetting standards are high, and throughout our
+          Aerospace and High Technology careers, we were guided by higher
+          standards: AS9100, ASTM, CCSDS, ESA, FAA, IEEE, ISO, JAXA, NASA, NIST,
+          RTCA, SAE, and more.
         </p>
       </div>
     </section>
@@ -126,12 +120,12 @@ const cards = [
     <!-- SERVICE INTRO -->
     <section class="max-w-7xl mx-auto px-8 pb-16">
       <h3 class="text-xl font-semibold mb-4">ExoSearch as a Service</h3>
-      <p class="text-sm text-gray-600 max-w-3xl">
-        The future is bright and we’re just getting started! By our standards,
-        other platforms and search engines have much lower standards for
-        vetting. The products and services on Exosearch.io are best in class for
-        the intended application, and we’ll monitor Engineer’s feedback to make
-        sure that’s 100% true in all cases.
+      <p class="text-md text-gray-700 max-w-3xl">
+        Our model is different, while large platforms thrive on high volume, low
+        or zero touch, or treat you like you’re not worth their time with a chat
+        bot, we have experienced Aerospace Professionals aka “humans” to take
+        your calls. If we don’t have the answer, we’ll tell you that fast, but
+        we will do our best and commit to a timeline to find what you need.
       </p>
     </section>
 
@@ -186,14 +180,14 @@ const cards = [
     <!-- REQUESTS -->
     <section class="max-w-7xl mx-auto px-8 pb-24">
       <h3 class="text-xl font-semibold mb-2">We take requests</h3>
-      <p class="text-sm text-gray-600 mb-6">
-        Give us a shot to search and vet items not yet in our database
+      <p class="text-md text-gray-700 mb-6">
+        If it's not in our database, we'll find it!
       </p>
       <div class="flex flex-col sm:flex-row gap-4 max-w-md">
         <input
           type="email"
           placeholder="Enter email"
-          class="flex-1 rounded-full border px-4 py-2 text-sm bg-gray-100"
+          class="flex-1 rounded-full border px-4 py-2 text-md bg-gray-100"
         />
         <button
           class="text-white px-6 py-2 rounded-full"
@@ -202,7 +196,10 @@ const cards = [
           Submit
         </button>
       </div>
-      <label class="flex items-center gap-2 text-xs text-gray-500 mt-3" style="cursor:pointer">
+      <label
+        class="flex items-center gap-2 text-xs text-gray-500 mt-3"
+        style="cursor: pointer"
+      >
         <input type="checkbox" class="checkmark accent-[#222222]" />
         I agree to receive marketing emails
       </label>
@@ -211,4 +208,3 @@ const cards = [
     <LayoutFooter :featuredCategories="featuredCategories" />
   </div>
 </template>
-
