@@ -42,7 +42,7 @@ const cards = [
         <div class="absolute inset-0 bg-black/40"></div>
 
         <div
-          class="relative z-10 flex flex-col items-center text-center text-white px-6 py-24"
+          class="relative z-10 flex flex-col items-center text-center text-white sm:px-6 px-3 py-24"
         >
           <h1
             class="text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight max-w-4xl"
