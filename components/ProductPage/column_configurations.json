@@ -1,104 +1,122 @@
 [
   {
-    "column_name": "ft_technology",
-    "display_name": "Technology",
-    "category_name": "Specifications",
-    "order": 999
-  },
-  {
-    "column_name": "ft_axis",
-    "display_name": "Axis",
-    "category_name": "Specifications",
-    "order": 999
-  },
-  {
-    "column_name": "ft_g_range",
-    "display_name": "G Range",
-    "category_name": "Specifications",
-    "order": 999
-  },
-  {
-    "column_name": "ft_vdc",
-    "display_name": "Input Voltage",
-    "category_name": "Electrical",
-    "order": 999
-  },
-  {
-    "column_name": "ft_current",
-    "display_name": "Current Draw",
-    "category_name": "Electrical",
-    "order": 999
-  },
-  {
-    "column_name": "ft_Output",
-    "display_name": "Output",
-    "category_name": "Electrical",
-    "order": 999
-  },
-  {
-    "column_name": "ft_applications",
-    "display_name": "Applications",
-    "category_name": "Specifications",
-    "order": 999
-  },
-  {
-    "column_name": "ft_standards",
-    "display_name": "Standards",
-    "category_name": "Specifications",
-    "order": 999
-  },
-  {
-    "column_name": "ft_vibration",
-    "display_name": "Vibration",
-    "category_name": "Environmental",
-    "order": 999
-  },
-  {
-    "column_name": "ft_shock",
-    "display_name": "Shock",
-    "category_name": "Environmental",
-    "order": 999
-  },
-  {
-    "column_name": "ft_weight",
-    "display_name": "Weight",
-    "category_name": "Specifications",
-    "order": 999
-  },
-  {
-    "column_name": "ft_temp_low",
-    "display_name": "Temp Low",
-    "category_name": "Specifications",
-    "order": 999
-  },
-  {
-    "column_name": "ft_temp_high",
-    "display_name": "Temp High",
-    "category_name": "Specifications",
-    "order": 999
-  },
-  {
-    "column_name": "ft_dimensions",
-    "display_name": "Dimensions",
-    "category_name": "Specifications",
-    "order": 999
-  },
-  {
-    "column_name": "manufacturer",
-    "display_name": "Manufacturer",
-    "category_name": "Specifications",
-    "order": 1
-  },
-  {
     "column_name": "model",
     "display_name": "Model",
     "category_name": "Specifications",
     "order": 1
   },
   {
+    "column_name": "manufacturer",
+    "display_name": "Manufacturer",
+    "category_name": "Specifications",
+    "order": 2
+  },
+  {
+    "column_name": "manufacturer_part_number",
+    "display_name": "MPN",
+    "category_name": "Specifications",
+    "order": 3
+  },
+  {
+    "column_name": "ft_technology",
+    "display_name": "Technology",
+    "category_name": "Specifications",
+    "order": 4
+  },
+  {
+    "column_name": "ft_applications",
+    "display_name": "Applications",
+    "category_name": "Specifications",
+    "order": 5
+  },
+  {
+    "column_name": "ft_standards",
+    "display_name": "Standards",
+    "category_name": "Specifications",
+    "order": 6
+  },
+  {
+    "column_name": "ft_axis",
+    "display_name": "Axis",
+    "category_name": "Specifications",
+    "order": 7
+  },
+  {
+    "column_name": "ft_rate-range",
+    "display_name": "Angular Rate",
+    "category_name": "Specifications",
+    "order": 8
+  },
+  {
+    "column_name": "ft_bias-ir",
+    "display_name": "Bias In-Run",
+    "category_name": "Specifications",
+    "order": 9
+  },
+  {
+    "column_name": "ft_arw",
+    "display_name": "ARW",
+    "category_name": "Specifications",
+    "order": 10
+  },
+  {
+    "column_name": "ft_output",
+    "display_name": "Output",
+    "category_name": "Electrical",
+    "order": 10
+  },
+  {
+    "column_name": "ft_vdc",
+    "display_name": "Input Voltage",
+    "category_name": "Electrical",
+    "order": 11
+  },
+  {
+    "column_name": "ft_current",
+    "display_name": "Current Draw",
+    "category_name": "Electrical",
+    "order": 12
+  },
+  {
+    "column_name": "ft_temp_low",
+    "display_name": "Temp Low",
+    "category_name": "Specifications",
+    "order": 13
+  },
+  {
+    "column_name": "ft_temp_high",
+    "display_name": "Temp High",
+    "category_name": "Specifications",
+    "order": 14
+  },
+  {
+    "column_name": "ft_weight",
+    "display_name": "Weight",
+    "category_name": "Specifications",
+    "order": 15
+  },
+  {
+    "column_name": "ft_vibration",
+    "display_name": "Vibration",
+    "category_name": "Environmental",
+    "order": 16
+  },
+  {
+    "column_name": "ft_shock",
+    "display_name": "Shock",
+    "category_name": "Environmental",
+    "order": 17
+  },
+  {
+    "column_name": "ft_dimensions",
+    "display_name": "Dimensions",
+    "category_name": "Specifications",
+    "order": 18
+  },
+  {
     "column_name": "country_of_origin",
     "display_name": "COO",
     "category_name": "Specifications",
-    "order": 999
+    "order": 19
   }
 ]
