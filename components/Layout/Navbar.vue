@@ -9,10 +9,8 @@ const router = useRouter();
 <template>
   <header>
     <!-- desktop nav -->
-    <div
-      class="hidden sm:flex items-center justify-between px-4 py-6 mx-auto"
-    >
-      <div class="flex items-center gap-2">
+    <div class="hidden sm:flex items-center justify-between px-4 py-6 mx-auto">
+      <a class="flex items-center gap-2" href="/">
         <span class="text-red-500 font-semibold"
           ><span style="font-weight: 300">exo</span><span>search</span></span
         >
@@ -20,13 +18,15 @@ const router = useRouter();
           class="text-xs px-2 py-0.5 rounded-full border border-gray-800 text-gray-600"
           >beta</span
         >
-      </div>
-      <nav class="flex items-center gap-6 text-sm">
-        <a href="/about" class="hover:text-black">About</a>
-        <a href="#" class="hover:text-black">Get listed</a>
-        <button class="bg-black text-white px-4 py-2 rounded-md">
+      </a>
+      <nav class="flex items-center gap-6 mr-5 text-sm">
+        <a href="/about" class="hover:text-black text-lg font-semibold">
+          About
+        </a>
+        <!-- <a href="#" class="hover:text-black">Get listed</a> -->
+        <!-- <button class="bg-black text-white px-4 py-2 rounded-md">
           Explore components
-        </button>
+        </button> -->
       </nav>
     </div>
     <!-- mobile nav -->
@@ -63,10 +63,10 @@ const router = useRouter();
       </div>
       <div v-if="isOpen" class="pl-12 pb-3 space-y-2">
         <a href="/about" class="block py-2 hover:text-yellow-400">About</a>
-        <a href="" class="block py-2 hover:text-yellow-400">Get listed</a>
-         <button class="bg-black text-white px-4 py-2 rounded-md">
+        <!-- <a href="" class="block py-2 hover:text-yellow-400">Get listed</a> -->
+        <!-- <button class="bg-black text-white px-4 py-2 rounded-md">
           Explore components
-        </button>
+        </button> -->
       </div>
     </div>
   </header>

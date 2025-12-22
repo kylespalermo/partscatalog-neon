@@ -232,199 +232,204 @@ function selectCategory(category, event) {
 }
 </script>
 
-<template class="!bg-white">
-  <section class="w-full inner-nav">
-   
-          <MainNavbar />
-  </section>
-  <section class="inner-container">
-    <div class="flex mt-[-13px] mb-[10px]">
-      <a
-        @click.prevent="goBack"
-        class="flex items-center text-blue-600 hover:underline cursor-pointer float-right"
-      >
-        <FontAwesomeIcon :icon="['fas', 'chevron-left']" class="h-4" />
-        <FontAwesomeIcon :icon="['fas', 'chevron-left']" class="h-4 mr-1" />
-        Back
-      </a>
-    </div>
-    <h3 class="in-heading">Explore products</h3>
+<template>
+  <div class="bg-gray-100">
+    <LayoutNavbar />
+    <section class="inner-container rounded-md !bg-white">
+      <div class="flex mt-[-13px] mb-[10px]">
+        <a
+          @click.prevent="goBack"
+          class="flex items-center text-blue-600 hover:underline cursor-pointer float-right"
+        >
+          <FontAwesomeIcon :icon="['fas', 'chevron-left']" class="h-4" />
+          <FontAwesomeIcon :icon="['fas', 'chevron-left']" class="h-4 mr-1" />
+          Back
+        </a>
+      </div>
+      <h3 class="in-heading">Explore products</h3>
 
-    <form>
-      <template v-if="products">
-        <fieldset>
-          <legend class="font-semibold sh-c">Showing components for</legend>
-          <div class="small-badges">
-            <button
-              v-for="productType in productTypes"
-              :key="productType"
-              @click="selectCategory(productType, $event)"
-              :class="[
-                'appname category-btn',
-                selectedType === productType
-                  ? 'category-active'
-                  : 'category-inactive',
-              ]"
-            >
-              {{ productType }}
-            </button>
-          </div>
-        </fieldset>
-        <Button
-          @click="visible = true"
-          label="Refine results"
-          class="refine-btn"
-        ></Button>
-        <Drawer v-model:visible="visible" header="Refine results">
-          <!-- <div class="flex items-center gap-2 mb-4">
+      <form>
+        <template v-if="products">
+          <fieldset>
+            <legend class="font-semibold sh-c">Showing components for</legend>
+            <div class="small-badges">
+              <button
+                v-for="productType in productTypes"
+                :key="productType"
+                @click="selectCategory(productType, $event)"
+                :class="[
+                  'appname category-btn',
+                  selectedType === productType
+                    ? 'category-active'
+                    : 'category-inactive',
+                ]"
+              >
+                {{ productType }}
+              </button>
+            </div>
+          </fieldset>
+          <Button
+            @click="visible = true"
+            label="Refine results"
+            class="refine-btn"
+          ></Button>
+          <Drawer v-model:visible="visible" header="Refine results">
+            <!-- <div class="flex items-center gap-2 mb-4">
 							   <svg  @click="showFilters = !showFilters" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="icon-sm text-token-text-tertiary"><path d="M12.1338 5.94433C12.3919 5.77382 12.7434 5.80202 12.9707 6.02929C13.1979 6.25656 13.2261 6.60807 13.0556 6.8662L12.9707 6.9707L8.47067 11.4707C8.21097 11.7304 7.78896 11.7304 7.52926 11.4707L3.02926 6.9707L2.9443 6.8662C2.77379 6.60807 2.80199 6.25656 3.02926 6.02929C3.25653 5.80202 3.60804 5.77382 3.86617 5.94433L3.97067 6.02929L7.99996 10.0586L12.0293 6.02929L12.1338 5.94433Z"></path></svg>
 				  <span class="font-semibold text-lg">Refine Results</span>
 				 
 				</div>-->
 
-          <fieldset v-if="uniqueCountries.length > 1">
-            <p class="font-medium mb-2">Filter by countries of origin</p>
-            <div v-if="uniqueCountries.length" class="mb-4">
+            <fieldset v-if="uniqueCountries.length > 1">
+              <p class="font-medium mb-2">Filter by countries of origin</p>
+              <div v-if="uniqueCountries.length" class="mb-4">
+                <div class="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    v-for="country in uniqueCountries"
+                    :key="country"
+                    @click="toggleCountry(country)"
+                    :class="[
+                      'flex items-center gap-2 blue-btn',
+                      selectedCountries.includes(country)
+                        ? 'text-[#1728e5] bg-[#e2eafa]'
+                        : '!bg-[#dadada] text-[#222222] border-0',
+                    ]"
+                  >
+                    <FontAwesomeIcon
+                      v-if="selectedCountries.includes(country)"
+                      :icon="['fas', 'check']"
+                      class="h-4"
+                    />
+                    <FontAwesomeIcon
+                      v-else
+                      :icon="['fas', 'plus']"
+                      class="h-4"
+                    />
+                    <span>{{ country }}</span>
+                  </button>
+                </div>
+              </div>
+            </fieldset>
+
+            <div v-if="uniqueApplications.length">
+              <p class="font-medium mb-2">Filter by application</p>
               <div class="flex flex-wrap gap-2">
                 <button
                   type="button"
-                  v-for="country in uniqueCountries"
-                  :key="country"
-                  @click="toggleCountry(country)"
+                  v-for="app in uniqueApplications"
+                  :key="app"
+                  @click="toggleApplication(app)"
                   :class="[
                     'flex items-center gap-2 blue-btn',
-                    selectedCountries.includes(country)
+                    selectedApplications.includes(app)
                       ? 'text-[#1728e5] bg-[#e2eafa]'
                       : '!bg-[#dadada] text-[#222222] border-0',
                   ]"
                 >
                   <FontAwesomeIcon
-                    v-if="selectedCountries.includes(country)"
+                    v-if="selectedApplications.includes(app)"
                     :icon="['fas', 'check']"
                     class="h-4"
                   />
                   <FontAwesomeIcon v-else :icon="['fas', 'plus']" class="h-4" />
-                  <span>{{ country }}</span>
+                  <span>{{ app }}</span
+                  >&nbsp;&nbsp;
                 </button>
               </div>
             </div>
-          </fieldset>
 
-          <div v-if="uniqueApplications.length">
-            <p class="font-medium mb-2">Filter by application</p>
-            <div class="flex flex-wrap gap-2">
-              <button
-                type="button"
-                v-for="app in uniqueApplications"
-                :key="app"
-                @click="toggleApplication(app)"
-                :class="[
-                  'flex items-center gap-2 blue-btn',
-                  selectedApplications.includes(app)
-                    ? 'text-[#1728e5] bg-[#e2eafa]'
-                    : '!bg-[#dadada] text-[#222222] border-0',
-                ]"
-              >
-                <FontAwesomeIcon
-                  v-if="selectedApplications.includes(app)"
-                  :icon="['fas', 'check']"
-                  class="h-4"
-                />
-                <FontAwesomeIcon v-else :icon="['fas', 'plus']" class="h-4" />
-                <span>{{ app }}</span
-                >&nbsp;&nbsp;
-              </button>
+            <fieldset class="mt-4">
+              <p class="font-medium side-sub-t">Show/hide parametric columns</p>
+              <div class="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  v-for="parametricFeature in parametricFeatures"
+                  :key="parametricFeature"
+                  @click="toggleParametric(parametricFeature)"
+                  :class="[
+                    'flex items-center gap-1 blue-btn',
+                    selectedParametricFeatures.includes(parametricFeature)
+                      ? 'text-[#1728e5] bg-[#e2eafa]'
+                      : '!bg-[#dadada] text-[#222222] border-0',
+                  ]"
+                >
+                  <span>{{ labelFromFeatureKey(parametricFeature) }}</span>
+                  &nbsp;&nbsp;
+                  <FontAwesomeIcon
+                    v-if="
+                      selectedParametricFeatures.includes(parametricFeature)
+                    "
+                    :icon="['fas', 'close']"
+                    class="h-4"
+                  />
+                  <FontAwesomeIcon v-else :icon="['fas', 'plus']" class="h-4" />
+                </button>
+              </div>
+            </fieldset>
+
+            <div class="search-form-sec">
+              <p class="s-t">Search within</p>
+              <input
+                v-model="search"
+                placeholder="Enter term"
+                class="s-inp w-full"
+              />
             </div>
-          </div>
-
-          <fieldset class="mt-4">
-            <p class="font-medium side-sub-t">Show/hide parametric columns</p>
-            <div class="flex flex-wrap gap-2">
-              <button
-                type="button"
-                v-for="parametricFeature in parametricFeatures"
-                :key="parametricFeature"
-                @click="toggleParametric(parametricFeature)"
-                :class="[
-                  'flex items-center gap-1 blue-btn',
-                  selectedParametricFeatures.includes(parametricFeature)
-                    ? 'text-[#1728e5] bg-[#e2eafa]'
-                    : '!bg-[#dadada] text-[#222222] border-0',
-                ]"
-              >
-                <span>{{ labelFromFeatureKey(parametricFeature) }}</span>
-                &nbsp;&nbsp;
-                <FontAwesomeIcon
-                  v-if="selectedParametricFeatures.includes(parametricFeature)"
-                  :icon="['fas', 'close']"
-                  class="h-4"
-                />
-                <FontAwesomeIcon v-else :icon="['fas', 'plus']" class="h-4" />
-              </button>
-            </div>
-          </fieldset>
-
-          <div class="search-form-sec">
-            <p class="s-t">Search within</p>
-            <input
-              v-model="search"
-              placeholder="Enter term"
-              class="s-inp w-full"
-            />
-          </div>
-        </Drawer>
-      </template>
-    </form>
-    <main>
-      <DataTable
-        class="cursor-pointer my-table w-full"
-        columnResizeMode="expand"
-        v-if="products"
-        :value="searchQuery ? finalFilteredProducts : matchedProducts"
-        @row-click="goToProduct"
-      >
-        <Column sortable key="product" field="model" header="Model" />
-        <Column
-          sortable
-          key="product"
-          field="manufacturer"
-          header="Manufacturer"
-        />
-        <Column
-          sortable
-          key="applications"
-          field="applications"
-          header="Applications"
+          </Drawer>
+        </template>
+      </form>
+      <main>
+        <DataTable
+          class="cursor-pointer my-table w-full"
+          columnResizeMode="expand"
+          v-if="products"
+          :value="searchQuery ? finalFilteredProducts : matchedProducts"
+          @row-click="goToProduct"
         >
-          <template #body="{ data }">
-            <div class="tags-cell">
-              <Tag
-                v-for="(application, index) in data.applications"
-                :key="index"
-                :value="application"
-                class="text-[#1728e5] bg-[#e2eafa] border-0 no-underline text-[17px]] pr-[11px] pl-[8px] font-[400]"
-              ></Tag>
-            </div>
-          </template>
-        </Column>
-        <Column
-          sortable
-          key="country_of_origin"
-          field="country_of_origin"
-          header="Country of origin"
-        />
-        <template
-          v-for="selectedParametricFeature in selectedParametricFeatures"
-        >
+          <Column sortable key="product" field="model" header="Model" />
           <Column
             sortable
-            :field="selectedParametricFeature"
-            :header="labelFromFeatureKey(selectedParametricFeature)"
+            key="product"
+            field="manufacturer"
+            header="Manufacturer"
           />
-        </template>
-      </DataTable>
-    </main>
-  </section>
+          <Column
+            sortable
+            key="applications"
+            field="applications"
+            header="Applications"
+          >
+            <template #body="{ data }">
+              <div class="tags-cell">
+                <Tag
+                  v-for="(application, index) in data.applications"
+                  :key="index"
+                  :value="application"
+                  class="text-[#1728e5] bg-[#e2eafa] border-0 no-underline text-[17px]] pr-[11px] pl-[8px] font-[400]"
+                ></Tag>
+              </div>
+            </template>
+          </Column>
+          <Column
+            sortable
+            key="country_of_origin"
+            field="country_of_origin"
+            header="Country of origin"
+          />
+          <template
+            v-for="selectedParametricFeature in selectedParametricFeatures"
+          >
+            <Column
+              sortable
+              :field="selectedParametricFeature"
+              :header="labelFromFeatureKey(selectedParametricFeature)"
+            />
+          </template>
+        </DataTable>
+      </main>
+    </section>
+  </div>
 </template>
 
 <style scoped>

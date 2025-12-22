@@ -179,32 +179,36 @@ const cards = [
 
     <!-- REQUESTS -->
     <section class="max-w-7xl mx-auto px-8 pb-24">
-      <h3 class="text-xl font-semibold mb-2">We take requests</h3>
-      <p class="text-md text-gray-700 mb-6">
-        If it's not in our database, we'll find it!
-      </p>
-      <div class="flex flex-col sm:flex-row gap-4 max-w-md">
-        <input
-          type="email"
-          placeholder="Enter email"
-          class="flex-1 rounded-full border px-4 py-2 text-md bg-gray-100"
-        />
-        <button
-          class="text-white px-6 py-2 rounded-full"
-          style="background-color: #222222"
+      <form action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="328c3cab-3137-4103-be30-bd1214162429">
+        <h3 class="text-xl font-semibold mb-2">We take requests</h3>
+        <p class="text-md text-gray-700 mb-6">
+          If it's not in our database, we'll find it!
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 max-w-md">
+          <input
+            type="email"
+            placeholder="Enter email"
+            class="flex-1 rounded-full border px-4 py-2 text-md bg-gray-100"
+          />
+          <button
+            class="text-white px-6 py-2 rounded-full"
+            style="background-color: #222222"
+            type="submit"
+          >
+            Submit
+          </button>
+        </div>
+        <label
+          class="flex items-center gap-2 text-xs text-gray-500 mt-3"
+          style="cursor: pointer"
         >
-          Submit
-        </button>
-      </div>
-      <label
-        class="flex items-center gap-2 text-xs text-gray-500 mt-3"
-        style="cursor: pointer"
-      >
-        <input type="checkbox" class="checkmark accent-[#222222]" />
-        I agree to receive marketing emails
-      </label>
+          <input type="checkbox" class="checkmark accent-[#222222]" />
+          I agree to receive marketing emails
+        </label>
+      </form>
     </section>
 
-    <LayoutFooter :featuredCategories="featuredCategories" />
+    <LayoutFooter />
   </div>
 </template>

@@ -54,9 +54,11 @@ const convertCode = (code) => {
 };
 </script>
 
-<template class="!bg-white">
-    <MainNavbar />
-  <section class="inner-container">
+<template >
+  <div class="bg-gray-100" style="min-height: 100vh;">
+
+    <LayoutNavbar />
+  <section class="inner-container rounded-md bg-white">
     <div class="flex mt-[-13px] mb-[10px]">
       <client-only>
         <FontAwesomeIcon
@@ -121,6 +123,8 @@ Request quote
     </div>
     <ProductPageComponentSpecifications :product="product" />
   </section>
+  </div>
+
 </template>
 
 <style scoped>
