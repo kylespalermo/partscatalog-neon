@@ -187,6 +187,7 @@ const cards = [
         </p>
         <div class="flex flex-col sm:flex-row gap-4 max-w-md">
           <input
+          name="email"
             type="email"
             placeholder="Enter email"
             class="flex-1 rounded-full border px-4 py-2 text-md bg-gray-100"
@@ -203,7 +204,7 @@ const cards = [
           class="flex items-center gap-2 text-xs text-gray-500 mt-3"
           style="cursor: pointer"
         >
-          <input type="checkbox" class="checkmark accent-[#222222]" />
+          <input name="marketing_agree" type="checkbox" class="checkmark accent-[#222222]" />
           I agree to receive marketing emails
         </label>
       </form>
