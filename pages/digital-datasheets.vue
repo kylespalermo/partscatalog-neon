@@ -1,7 +1,7 @@
 <template>
   <LayoutNavbar />
   <LayoutHero
-    image_url=""
+    image_url="https://files.slack.com/files-tmb/T09FQ9WNLKC-F0A51H5BYAH-e451563a51/istock-2054515915_720.jpg"
     title="Digital Datasheets"
   />
   <section class="mx-auto px-8 pb-16 mt-5">

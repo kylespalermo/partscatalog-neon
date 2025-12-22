@@ -7,6 +7,11 @@ const featuredCategories = [
   { displayName: "Gyroscopes", link: "/products?type=Gyroscopes" },
   { displayName: "IMUs", link: "/products?type=IMUs" },
 ];
+const config = useRuntimeConfig()
+
+const baseUrl = config.public.web3FormsBaseUrl
+const web3FormsPublicApiKey = config.public.web3FormsPublicApiKey
+
 
 const cards = [
   {
@@ -177,17 +182,20 @@ const cards = [
       </div>
     </section>
 
-    <!-- REQUESTS -->
     <section class="max-w-7xl mx-auto px-8 pb-24">
-      <form action="https://api.web3forms.com/submit" method="POST">
-        <input type="hidden" name="access_key" value="328c3cab-3137-4103-be30-bd1214162429">
+      <form :action="baseUrl" method="POST">
+        <input
+          type="hidden"
+          name="access_key"
+          :value="web3FormsPublicApiKey"
+        />
         <h3 class="text-xl font-semibold mb-2">We take requests</h3>
         <p class="text-md text-gray-700 mb-6">
           If it's not in our database, we'll find it!
         </p>
         <div class="flex flex-col sm:flex-row gap-4 max-w-md">
           <input
-          name="email"
+            name="email"
             type="email"
             placeholder="Enter email"
             class="flex-1 rounded-full border px-4 py-2 text-md bg-gray-100"
@@ -204,7 +212,11 @@ const cards = [
           class="flex items-center gap-2 text-xs text-gray-500 mt-3"
           style="cursor: pointer"
         >
-          <input name="marketing_agree" type="checkbox" class="checkmark accent-[#222222]" />
+          <input
+            name="agree_to_receive_marketing_emails?"
+            type="checkbox"
+            class="checkmark accent-[#222222]"
+          />
           I agree to receive marketing emails
         </label>
       </form>

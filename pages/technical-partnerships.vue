@@ -1,7 +1,7 @@
 <template>
   <LayoutNavbar />
   <LayoutHero
-    image_url=""
+    image_url="https://files.slack.com/files-pri/T09FQ9WNLKC-F0A58HT5J0L/istock-1617383361.jpg"
     title="Technical Partnerships"
   />
   <section class="mx-auto px-8 pb-16 mt-5">
