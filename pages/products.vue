@@ -24,16 +24,21 @@ const selectedApplications = ref([]);
 const selectedCountries = ref([]);
 
 // Store the initial query parameter but don't reactive track it
-const initialQueryType = route.query.type;
+const initialQueryType = route.query.type?.toLowerCase();
 
 // Set initial type when products are loaded
 watch(
   productTypes,
   (types) => {
     if (types?.length && !selectedType.value) {
-      if (initialQueryType && types.includes(initialQueryType)) {
-        selectedType.value = initialQueryType;
+      const matchedType = types.find(t => t.toLowerCase() === initialQueryType);
+      if (initialQueryType && matchedType) {
+        selectedType.value = matchedType;
       } else {
+        if (initialQueryType) {
+          // Invalid type param, redirect to clean URL
+          router.push({ path: '/products' });
+        }
         selectedType.value = types[0];
       }
     }
@@ -69,17 +74,13 @@ const transformedData = computed(() => {
   return transform(typeFilteredProducts.value);
 });
 
-// All unique countries from ALL products
+// Unique countries from current category's products only
 const uniqueCountries = computed(() => {
-  return [...new Set(products.value.map((p) => p.country_of_origin))];
+  if (!transformedData.value) return [];
+  return [...new Set(transformedData.value.map((p) => p.country_of_origin))];
 });
 
-// select all countries by default when products are ready
-watchEffect(() => {
-  if (uniqueCountries.value.length && selectedCountries.value.length === 0) {
-    selectedCountries.value = [...uniqueCountries.value]; // select all
-  }
-});
+// No filters selected by default - empty arrays mean no filtering
 
 const finalFilteredProducts = computed(() => {
   if (!transformedData.value) return [];
@@ -139,14 +140,7 @@ const uniqueApplications = computed(() => {
 
   return Array.from(appSet);
 });
-watchEffect(() => {
-  if (
-    uniqueApplications.value.length &&
-    selectedApplications.value.length === 0
-  ) {
-    selectedApplications.value = [...uniqueApplications.value]; // select all apps
-  }
-});
+// No applications selected by default - empty array means no filtering
 
 /* const uniqueCountries = computed(() => {
         const countrySet = new Set()
@@ -229,6 +223,11 @@ function selectCategory(category, event) {
     event.stopPropagation();
   }
   selectedType.value = category;
+  // Clear filters when switching categories
+  selectedApplications.value = [];
+  selectedCountries.value = [];
+  // Update URL query parameter (always lowercase)
+  router.push({ query: { type: category.toLowerCase() } });
 }
 </script>
 
@@ -339,42 +338,100 @@ function selectCategory(category, event) {
               </div>
             </div>
 
-            <fieldset class="mt-4">
-              <p class="font-medium side-sub-t">Show/hide parametric columns</p>
-              <div class="flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  v-for="parametricFeature in parametricFeatures"
-                  :key="parametricFeature"
-                  @click="toggleParametric(parametricFeature)"
-                  :class="[
-                    'flex items-center gap-1 blue-btn',
-                    selectedParametricFeatures.includes(parametricFeature)
-                      ? 'text-[#1728e5] bg-[#e2eafa]'
-                      : '!bg-[#dadada] text-[#222222] border-0',
-                  ]"
-                >
-                  <span>{{ labelFromFeatureKey(parametricFeature) }}</span>
-                  &nbsp;&nbsp;
-                  <FontAwesomeIcon
-                    v-if="
-                      selectedParametricFeatures.includes(parametricFeature)
-                    "
-                    :icon="['fas', 'close']"
-                    class="h-4"
-                  />
-                  <FontAwesomeIcon v-else :icon="['fas', 'plus']" class="h-4" />
-                </button>
-              </div>
-            </fieldset>
+          <div v-if="uniqueApplications.length > 1">
+            <p class="font-medium mb-2">Filter by application</p>
+            <div class="flex flex-wrap gap-2">
+              <button
+                type="button"
+                v-for="app in uniqueApplications"
+                :key="app"
+                @click="toggleApplication(app)"
+                :class="[
+                  'flex items-center gap-2 blue-btn',
+                  selectedApplications.includes(app)
+                    ? 'text-[#1728e5] bg-[#e2eafa]'
+                    : '!bg-[#dadada] text-[#222222] border-0',
+                ]"
+              >
+                <FontAwesomeIcon
+                  v-if="selectedApplications.includes(app)"
+                  :icon="['fas', 'check']"
+                  class="h-4"
+                />
+                <FontAwesomeIcon v-else :icon="['fas', 'plus']" class="h-4" />
+                <span>{{ app }}</span
+                >&nbsp;&nbsp;
+              </button>
+            </div>
+          </div>
 
-            <div class="search-form-sec">
-              <p class="s-t">Search within</p>
-              <input
-                v-model="search"
-                placeholder="Enter term"
-                class="s-inp w-full"
-              />
+          <fieldset class="mt-4">
+            <p class="font-medium side-sub-t">Show/hide parametric columns</p>
+            <div class="flex flex-wrap gap-2">
+              <button
+                type="button"
+                v-for="parametricFeature in parametricFeatures"
+                :key="parametricFeature"
+                @click="toggleParametric(parametricFeature)"
+                :class="[
+                  'flex items-center gap-1 blue-btn',
+                  selectedParametricFeatures.includes(parametricFeature)
+                    ? 'text-[#1728e5] bg-[#e2eafa]'
+                    : '!bg-[#dadada] text-[#222222] border-0',
+                ]"
+              >
+                <span>{{ labelFromFeatureKey(parametricFeature) }}</span>
+                &nbsp;&nbsp;
+                <FontAwesomeIcon
+                  v-if="selectedParametricFeatures.includes(parametricFeature)"
+                  :icon="['fas', 'close']"
+                  class="h-4"
+                />
+                <FontAwesomeIcon v-else :icon="['fas', 'plus']" class="h-4" />
+              </button>
+            </div>
+          </fieldset>
+
+          <div class="search-form-sec">
+            <p class="s-t">Search within</p>
+            <input
+              v-model="search"
+              placeholder="Enter term"
+              class="s-inp w-full"
+            />
+          </div>
+        </Drawer>
+      </template>
+    </form>
+    <main>
+      <DataTable
+        class="cursor-pointer my-table w-full"
+        columnResizeMode="expand"
+        v-if="products"
+        :value="searchQuery ? finalFilteredProducts : matchedProducts"
+        @row-click="goToProduct"
+      >
+        <Column sortable key="product" field="model" header="Model" />
+        <Column
+          sortable
+          key="product"
+          field="manufacturer"
+          header="Manufacturer"
+        />
+        <Column
+          sortable
+          key="applications"
+          field="applications"
+          header="Applications"
+        >
+          <template #body="{ data }">
+            <div class="tags-cell">
+              <Tag
+                v-for="(application, index) in data.applications"
+                :key="index"
+                :value="application"
+                class="text-[#1728e5] bg-[#e2eafa] border-0 no-underline text-[17px]] pr-[11px] pl-[8px] font-[400]"
+              ></Tag>
             </div>
           </Drawer>
         </template>
