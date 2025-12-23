@@ -1,41 +1,42 @@
 <template>
   <LayoutNavbar />
   <LayoutHero
-    image_url="https://files.slack.com/files-pri/T09FQ9WNLKC-F0A58HT5J0L/istock-1617383361.jpg"
-    title="Technical Partnerships"
+    image_url="/tech-partnerships.jpg"
+    title="Technology Partnerships"
   />
   <section class="mx-auto px-8 pb-16 mt-5">
     <h3 class="text-xl font-semibold mb-4">
-      Digitizing your product data takes discovery to a higher level than data
-      locked in a PDF.
+      Technical Partnerships That Accelerate Innovation and Improve Product
+      Outcomes.
     </h3>
     <div class="text-md text-gray-700 max-w-3xl">
       <p>
-        One of the services we feel strongly about is forming technical
-        partnerships. Being a technical search engine, we’re in a unique
-        position to connect the dots between companies that don’t know the other
-        exists.
-      </p><br>
+        As a technical search engine, we’re uniquely positioned to identify
+        hidden synergies between companies working on similar problems—even when
+        neither party is aware of the other’s capabilities.
+      </p>
+      <br />
       <p>
-        Prior to founding of Exosearch, our Founders successfully decoded, and
-        mapped out, rocky, often zigzag paths, to make unlikely partnerships a
-        reality.
-      </p><br>
+        Are we effective at this? Absolutely. Our team has a long track record
+        of navigating the complex, nonlinear paths required to build
+        partnerships that might seem unlikely at first but ultimately prove
+        highly profitable.
+      </p>
+      <br />
       <p>
-        We have met strong leaders in great companies that were so frustrated by
-        blocking efforts to build something greater. they simply left the
-        employer.
-      </p><br>
+        While partnership negotiations are never guaranteed, our historical
+        performance is strong: in roughly three out of five collaborations we
+        initiated, structured, or facilitated, we helped establish long-term,
+        multi-party technical partnerships. In many cases, these collaborations
+        enabled the development of products or solutions that no single
+        participant could have delivered alone due to limitations in technology,
+        expertise, or market access.
+      </p>
+      <br />
       <p>
-        The reality is Partnering negotiations are not a sure thing, but in
-        approximately three in five partnerships we suggested, initiated, and
-        negotiated, we helped enabled a long term partnerships with two parties,
-        sometimes three, to design and manufacture something that neither could
-        have done without the others technology, skill, and market position.
-      </p><br>
-      <p>
-        Two of our more successful partnerships with small companies, resulted
-        in acquisitions by the larger technology partner that reached $90M
+        Notably, two of the small companies we introduced to larger technology
+        partners were later acquired as a direct result of the strategic
+        alignment and technical fit uncovered during the collaboration process.
       </p>
     </div>
   </section>
