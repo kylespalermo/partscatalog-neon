@@ -207,7 +207,9 @@ function toggleCountry(country) {
 // click on row go to product details
 function goToProduct(event) {
   const productKey = event.data.key; // use product key
-  router.push(`/${productKey}`);
+  
+  const productCategory = event.data.source_table
+  router.push(`/${productKey}?category=${productCategory}`);
 }
 
 // go back function
