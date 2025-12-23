@@ -403,39 +403,7 @@ function selectCategory(category, event) {
         </Drawer>
       </template>
     </form>
-    <main>
-      <DataTable
-        class="cursor-pointer my-table w-full"
-        columnResizeMode="expand"
-        v-if="products"
-        :value="searchQuery ? finalFilteredProducts : matchedProducts"
-        @row-click="goToProduct"
-      >
-        <Column sortable key="product" field="model" header="Model" />
-        <Column
-          sortable
-          key="product"
-          field="manufacturer"
-          header="Manufacturer"
-        />
-        <Column
-          sortable
-          key="applications"
-          field="applications"
-          header="Applications"
-        >
-          <template #body="{ data }">
-            <div class="tags-cell">
-              <Tag
-                v-for="(application, index) in data.applications"
-                :key="index"
-                :value="application"
-                class="text-[#1728e5] bg-[#e2eafa] border-0 no-underline text-[17px]] pr-[11px] pl-[8px] font-[400]"
-              ></Tag>
-            </div>
-          </Drawer>
-        </template>
-      </form>
+    
       <main>
         <DataTable
           class="cursor-pointer my-table w-full"
