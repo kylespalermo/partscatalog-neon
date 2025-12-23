@@ -1,5 +1,4 @@
 <script setup>
-  
 const route = useRoute();
 
 // Font: Title Hero (configured in tailwind.config.js as `font-hero`)
@@ -10,13 +9,13 @@ const featuredCategories = [
   { displayName: "Gyroscopes", link: "/products?type=Gyroscopes" },
   { displayName: "IMUs", link: "/products?type=IMUs" },
 ];
-const config = useRuntimeConfig()
+const config = useRuntimeConfig();
 
-const baseUrl = config.public.web3FormsBaseUrl
-const web3FormsPublicApiKey = config.public.web3FormsPublicApiKey
+const baseUrl = config.public.web3FormsBaseUrl;
+const web3FormsPublicApiKey = config.public.web3FormsPublicApiKey;
 
-const host = useRequestURL().host 
-let contactFormSubmitted = route.query.contact_form_submitted
+const host = useRequestURL().host;
+let contactFormSubmitted = route.query.contact_form_submitted;
 
 const cards = [
   {
@@ -189,12 +188,12 @@ const cards = [
 
     <section class="max-w-7xl mx-auto px-8 pb-24">
       <form :action="baseUrl" method="POST">
-        <input type="hidden" name="redirect" :value="'https://' + host + '/?contact_form_submitted=true'" />
         <input
           type="hidden"
-          name="access_key"
-          :value="web3FormsPublicApiKey"
+          name="redirect"
+          :value="'https://' + host + '/?contact_form_submitted=true'"
         />
+        <input type="hidden" name="access_key" :value="web3FormsPublicApiKey" />
         <h3 class="text-xl font-semibold mb-2">We take requests</h3>
         <p class="text-md text-gray-700 mb-6">
           If it's not in our database, we'll find it!
@@ -226,14 +225,13 @@ const cards = [
           I agree to receive marketing emails
         </label>
       </form>
-      <div v-if="contactFormSubmitted === 'true'" class="px-3 py-1 mt-3 rounded-md bg-gray-100 border-gray-300 inline-block">
-        <p >
-          Thanks for connecting, we will get back to you right away!
-        </p>
-
+      <div
+        v-if="contactFormSubmitted === 'true'"
+        class="px-3 py-1 mt-3 rounded-md bg-gray-100 border-gray-300 inline-block"
+      >
+        <p>Thanks for connecting, we will get back to you right away.</p>
       </div>
     </section>
-
     <LayoutFooter />
   </div>
 </template>
