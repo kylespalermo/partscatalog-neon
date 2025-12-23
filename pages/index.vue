@@ -1,5 +1,6 @@
 <script setup>
 const route = useRoute();
+import { ref } from "vue";
 
 // Font: Title Hero (configured in tailwind.config.js as `font-hero`)
 const featuredCategories = [
@@ -9,14 +10,15 @@ const featuredCategories = [
   { displayName: "Gyroscopes", link: "/products?type=Gyroscopes" },
   { displayName: "IMUs", link: "/products?type=IMUs" },
 ];
-const config = useRuntimeConfig();
 
-const baseUrl = config.public.web3FormsBaseUrl;
-const web3FormsPublicApiKey = config.public.web3FormsPublicApiKey;
+// Here's our template ref typed as HTMLElement or null
+const sectionRefEl = ref(null);
 
-const host = useRequestURL().host;
-let contactFormSubmitted = route.query.contact_form_submitted;
-
+// Using scrollIntoView() function to achieve the scrolling
+function scrollTo(view) {
+  view.value?.scrollIntoView({ behavior: "smooth" });
+}
+scrollTo(sectionRefEl);
 const cards = [
   {
     title: "Search by Major Application",
@@ -36,6 +38,53 @@ const cards = [
     image: "/Starships-Second-Integrated-Test-Flight-IFT-2.webp",
   },
 ];
+const config = useRuntimeConfig();
+
+const baseUrl = config.public.web3FormsBaseUrl;
+const web3FormsPublicApiKey = config.public.web3FormsPublicApiKey;
+
+const host = useRequestURL().host;
+let contactFormSubmitted = route.query.contact_form_submitted;
+
+const formRef = ref(null)
+const result = ref('')
+const showResult = ref(false)
+const isSubmitting = ref(false)
+
+const submitForm = async () => {
+  if (!formRef.value) return
+
+  const formData = Object.fromEntries(new FormData(formRef.value))
+  if (!formData.email){
+    return
+  }
+
+  isSubmitting.value = true
+  showResult.value = true
+  result.value = 'Please wait...'
+
+  
+  const payload = JSON.stringify(formData)
+  try {
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: payload
+    })
+
+    const json = await response.json()
+    result.value = "Thanks for connecting, we will get back to you right away."
+  } catch (error) {
+    console.error(error)
+    result.value = 'Something went wrong!'
+  } finally {
+    isSubmitting.value = false
+    formRef.value.reset()
+  }
+}
 </script>
 <template>
   <div class="bg-white text-gray-900 font-hero">
@@ -186,13 +235,8 @@ const cards = [
       </div>
     </section>
 
-    <section class="max-w-7xl mx-auto px-8 pb-24">
-      <form :action="baseUrl" method="POST">
-        <input
-          type="hidden"
-          name="redirect"
-          :value="'https://' + host + '/?contact_form_submitted=true'"
-        />
+    <section class="max-w-7xl mx-auto px-8 pb-24" ref="sectionRefEl">
+      <form ref="formRef" @submit.prevent="submitForm">
         <input type="hidden" name="access_key" :value="web3FormsPublicApiKey" />
         <h3 class="text-xl font-semibold mb-2">We take requests</h3>
         <p class="text-md text-gray-700 mb-6">
@@ -226,10 +270,11 @@ const cards = [
         </label>
       </form>
       <div
-        v-if="contactFormSubmitted === 'true'"
+        v-if="showResult"
         class="px-3 py-1 mt-3 rounded-md bg-gray-100 border-gray-300 inline-block"
+        id="result"
       >
-        <p>Thanks for connecting, we will get back to you right away.</p>
+      {{  result }}
       </div>
     </section>
     <LayoutFooter />
