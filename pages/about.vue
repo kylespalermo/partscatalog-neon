@@ -8,45 +8,14 @@ const isOpen = ref(false); // or true, depending on default
 </script>
 
 <template>
-  <body class="antialiased text-slate-800 bg-slate-50 ">
-    <section class="w-full" style="background-color: #ff4f00;">
-      <MainNavbar isTransparent="true" wide-gutters="true"/>
-    </section>
-    <header class="relative">
-      <div class="relative w-full overflow-hidden">
-        <img
-          src="https://images.unsplash.com/photo-1705614681506-45a2bcdd458d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2532"
-          width="2532"
-          height="1424"
-          alt="Aerospace technical search hero image"
-          class="w-full h-[48vh] md:h-[56vh] lg:h-[70vh] object-cover"
-        />
-
-        <!-- overlay -->
-        <div
-          class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"
-        ></div>
-
-        <!-- hero text -->
-        <div
-          class="absolute inset-0 flex items-end md:items-center justify-start p-6 md:p-12"
-        >
-          <div class="max-w-3xl text-white">
-            <p class="text-sm uppercase tracking-widest text-white/80 mb-2">
-              About Exosearch.io
-            </p>
-            <h1
-              class="text-3xl md:text-5xl font-extrabold leading-tight drop-shadow-lg"
-            >
-              Technical Search for high-performance aerospace products & R&D
-            </h1>
-          </div>
-        </div>
-      </div>
-      <div class="flex justify-end !bg-slate-50">
-        <p class="mr-5 text-xs">Photo courtesy of Hermeus Aerospace</p>
-      </div>
-    </header>
+  <body class="antialiased text-slate-800 bg-slate-50">
+    <LayoutNavbar />
+    <LayoutHero
+      image_url="https://images.unsplash.com/photo-1705614681506-45a2bcdd458d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2532"
+      sub_title="About Exosearch.io"
+      title="Technical Search for high-performance aerospace products & R&D"
+      image_attribution="Photo courtesy of Hermeus Aerospace"
+    />
 
     <!-- MAIN CONTENT -->
     <main class="max-w-6xl mx-auto px-6 md:px-8 lg:px-12 mt-10 md:mt-16">
