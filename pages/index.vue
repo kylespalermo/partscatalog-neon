@@ -1,4 +1,7 @@
 <script setup>
+  
+const route = useRoute();
+
 // Font: Title Hero (configured in tailwind.config.js as `font-hero`)
 const featuredCategories = [
   { displayName: "Accelerometers", link: "/products?type=Accelerometers" },
@@ -12,6 +15,8 @@ const config = useRuntimeConfig()
 const baseUrl = config.public.web3FormsBaseUrl
 const web3FormsPublicApiKey = config.public.web3FormsPublicApiKey
 
+const host = useRequestURL().host 
+let contactFormSubmitted = route.query.contact_form_submitted
 
 const cards = [
   {
@@ -184,6 +189,7 @@ const cards = [
 
     <section class="max-w-7xl mx-auto px-8 pb-24">
       <form :action="baseUrl" method="POST">
+        <input type="hidden" name="redirect" :value="'https://' + host + '/?contact_form_submitted=true'" />
         <input
           type="hidden"
           name="access_key"
@@ -220,6 +226,12 @@ const cards = [
           I agree to receive marketing emails
         </label>
       </form>
+      <div v-if="contactFormSubmitted === 'true'" class="px-3 py-1 mt-3 rounded-md bg-gray-100 border-gray-300 inline-block">
+        <p >
+          Thanks for connecting, we will get back to you right away!
+        </p>
+
+      </div>
     </section>
 
     <LayoutFooter />
