@@ -32,7 +32,7 @@ const router = useRouter();
     <!-- mobile nav -->
     <div class="sm:hidden">
       <div class="flex items-center justify-between px-8 py-3">
-        <div class="flex items-center gap-2">
+        <a class="flex items-center gap-2" href="/">
           <span class="text-red-500 font-semibold"
             ><span style="font-weight: 300">exo</span><span>search</span></span
           >
@@ -40,7 +40,7 @@ const router = useRouter();
             class="text-xs px-2 py-0.5 rounded-full border border-gray-300 text-gray-600"
             >beta</span
           >
-        </div>
+        </a>
         <button
           @click="isOpen = !isOpen"
           type="button"
