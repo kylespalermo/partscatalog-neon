@@ -4,11 +4,11 @@ const route = useRoute();
 
 // Font: Title Hero (configured in tailwind.config.js as `font-hero`)
 const featuredCategories = [
-  { displayName: "Accelerometers", link: "/products?type=Accelerometers" },
+  { displayName: "Accelerometers", link: "/products?type=accelerometers" },
   { displayName: "AHRS", link: "/products?type=AHRS" },
-  { displayName: "Global Positioning Systems", link: "/products?type=gps" },
-  { displayName: "Gyroscopes", link: "/products?type=Gyroscopes" },
-  { displayName: "IMUs", link: "/products?type=IMUs" },
+  { displayName: "GPS Receivers", link: "" },
+  { displayName: "Gyroscopes", link: "/products?type=gyroscopes" },
+  { displayName: "IMUs", link: "/products?type=imu" },
 ];
 
 const cards = [

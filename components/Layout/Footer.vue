@@ -6,9 +6,9 @@ const props = defineProps({
     default: [
   { displayName: "Accelerometers", link: "/products?type=Accelerometers" },
   { displayName: "AHRS", link: "/products?type=AHRS" },
-  { displayName: "Global Positioning Systems", link: "/products?type=gps" },
+  { displayName: "GPS Receivers", link: "" },
   { displayName: "Gyroscopes", link: "/products?type=Gyroscopes" },
-  { displayName: "IMUs", link: "/products?type=IMUs" },
+  { displayName: "IMUs", link: "/products?type=imu" },
 ]
   },
 });
@@ -35,7 +35,7 @@ const props = defineProps({
         <p class="font-semibold mb-6">Services</p>
         <ul class="space-y-1">
           <li><a href="/digital-datasheets"> Digital Datasheets </a></li>
-          <li><a href="/technical-partnerships">Technology Partnering</a></li>
+          <li><a href="/technical-partnerships">Technology Partnerships</a></li>
         </ul>
       </div>
       <div>
